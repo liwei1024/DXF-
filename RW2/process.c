@@ -54,7 +54,10 @@ NTSTATUS ReadVirtualMemory(
 	PUCHAR SrcAddress;
 	
 	Status = PsLookupProcessByProcessId(TargetProcessId, &TargetProcess);
-	
+	dprintf("rvms->Address->:%x", rvms->Address);
+	dprintf("rvms->Response->:%p", rvms->Response);
+	dprintf("&rvms->Response->:%p", &rvms->Response);
+	dprintf("rvms->Size->:%d", rvms->Size);
 	if (NT_SUCCESS(Status))
 	{
 		DriverBuffer = ExAllocatePoolWithTag(NonPagedPool, rvms->Size, 0);
@@ -89,8 +92,8 @@ NTSTATUS ReadVirtualMemory(
 			__try
 			{
 				KeStackAttachProcess(ClientProcess, &apc_state);
-				ProbeForRead((PVOID)rvms->Response, rvms->Size, sizeof(CHAR));
-				RtlCopyMemory((PVOID)rvms->Response, DriverBuffer, rvms->Size);
+				ProbeForRead(rvms->Response, rvms->Size, sizeof(CHAR));
+				RtlCopyMemory(rvms->Response, DriverBuffer, rvms->Size);
 				KeUnstackDetachProcess(&apc_state);
 			}
 			__except (EXCEPTION_EXECUTE_HANDLER)
@@ -115,6 +118,7 @@ NTSTATUS WriteVirtualMemory(
 	KAPC_STATE apc_state;
 	PVOID DriverBuffer = NULL;
 	
+	
 	Status = PsLookupProcessByProcessId(TargetProcessId, &TargetProcess);
 	if (NT_SUCCESS(Status))
 	{
@@ -123,8 +127,8 @@ NTSTATUS WriteVirtualMemory(
 		__try
 		{
 			KeStackAttachProcess(ClientProcess, &apc_state);
-			ProbeForRead(wvms->Value, wvms->Size, sizeof(CHAR));
-			RtlCopyMemory(DriverBuffer, wvms->Value, wvms->Size);
+			ProbeForRead((PVOID)wvms->Value, wvms->Size, sizeof(CHAR));
+			RtlCopyMemory(DriverBuffer, (PVOID)wvms->Value, wvms->Size);
 			KeUnstackDetachProcess(&apc_state);
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER)
