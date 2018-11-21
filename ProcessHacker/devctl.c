@@ -25,7 +25,7 @@ NTSTATUS DispatchDeviceControl(
 			ReadVirtualMemory(Process, (PVOID)ReadInput->Address,&ReadInput->Response, ReadInput->Size);
 
 		DbgPrintEx(0, 0, "Read Params:  %lu, %#010x \n", ReadInput->ProcessId, ReadInput->Address);
-		DbgPrintEx(0, 0, "Value: %lu \n", ReadInput->Response);
+		//DbgPrintEx(0, 0, "Value: %lu \n", ReadInput->Response);
 		DbgPrintEx(0, 0, "Value: %lu \n", ReadOutput->Response);
 
 		Status = STATUS_SUCCESS;
