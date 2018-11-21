@@ -22,10 +22,10 @@ NTSTATUS DispatchDeviceControl(
 		PEPROCESS Process;
 		// Get our process
 		if (NT_SUCCESS(PsLookupProcessByProcessId((HANDLE)ReadInput->ProcessId, &Process)))
-			ReadVirtualMemory(Process, (PVOID)ReadInput->Address,
-				&ReadInput->Response, ReadInput->Size);
+			ReadVirtualMemory(Process, (PVOID)ReadInput->Address,&ReadInput->Response, ReadInput->Size);
 
 		DbgPrintEx(0, 0, "Read Params:  %lu, %#010x \n", ReadInput->ProcessId, ReadInput->Address);
+		DbgPrintEx(0, 0, "Value: %lu \n", ReadInput->Response);
 		DbgPrintEx(0, 0, "Value: %lu \n", ReadOutput->Response);
 
 		Status = STATUS_SUCCESS;
@@ -53,6 +53,7 @@ NTSTATUS DispatchDeviceControl(
 		*OutPut = (ULONG)GameProcessId;
 
 		DbgPrintEx(0, 0, "id get %#010x", GameProcessId);
+
 		Status = STATUS_SUCCESS;
 		BytesIO = sizeof(*OutPut);
 	}
@@ -62,6 +63,7 @@ NTSTATUS DispatchDeviceControl(
 		*OutPut = (ULONG)GameImageBase;
 
 		DbgPrintEx(0, 0, "Module get %#010x", GameImageBase);
+
 		Status = STATUS_SUCCESS;
 		BytesIO = sizeof(*OutPut);
 	}

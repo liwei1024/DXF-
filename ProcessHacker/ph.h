@@ -1,5 +1,7 @@
 #pragma once
-#include "ntos.h"
+#include <ntdef.h>
+#include <ntifs.h>
+#include <ntddk.h>
 #include "phapi.h"
 
 #pragma warning(disable:4311) //È«²¿¹Øµô
@@ -11,25 +13,18 @@
 extern HANDLE GameProcessId;
 extern PVOID GameImageBase;
 
-typedef struct _KERNEL_READ_REQUEST
-{
-	ULONG ProcessId;
 
-	ULONG Address;
-	ULONG Response;
-	ULONG Size;
 
-} KERNEL_READ_REQUEST, *PKERNEL_READ_REQUEST;
-
-typedef struct _KERNEL_WRITE_REQUEST
-{
-	ULONG ProcessId;
-
-	ULONG Address;
-	ULONG Value;
-	ULONG Size;
-
-} KERNEL_WRITE_REQUEST, *PKERNEL_WRITE_REQUEST;
+NTSTATUS NTAPI MmCopyVirtualMemory
+(
+	PEPROCESS SourceProcess,
+	PVOID SourceAddress,
+	PEPROCESS TargetProcess,
+	PVOID TargetAddress,
+	SIZE_T BufferSize,
+	KPROCESSOR_MODE PreviousMode,
+	PSIZE_T ReturnSize
+);
 
 NTSTATUS DispatchDeviceControl(
 	_In_ PDEVICE_OBJECT DeviceObject,

@@ -18,5 +18,25 @@
 #define GET_PROCESS_ID KPH_CTL_CODE(3)
 #define Get_PROCESS_BASE_ADDRESS KPH_CTL_CODE(4)
 
+typedef struct _KERNEL_READ_REQUEST
+{
+	ULONG ProcessId;
+
+	ULONG Address;
+	ULONG Response;
+	ULONG Size;
+
+} KERNEL_READ_REQUEST, *PKERNEL_READ_REQUEST;
+
+typedef struct _KERNEL_WRITE_REQUEST
+{
+	ULONG ProcessId;
+
+	ULONG Address;
+	ULONG Value;
+	ULONG Size;
+
+} KERNEL_WRITE_REQUEST, *PKERNEL_WRITE_REQUEST;
+
 #endif // !__PHAPI_H__
 

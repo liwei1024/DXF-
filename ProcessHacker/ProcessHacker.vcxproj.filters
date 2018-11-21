@@ -41,8 +41,5 @@
     <ClInclude Include="phapi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ntos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
