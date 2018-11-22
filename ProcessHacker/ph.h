@@ -10,9 +10,8 @@
 #define dprintf(Format, ...) DbgPrint("ProcessHacker: " Format "\n", __VA_ARGS__)
 #endif // !dprintf
 
-extern HANDLE GameProcessId;
-extern PVOID GameImageBase;
-
+extern HANDLE TargetProcessId;
+extern PVOID TargetProcessBaseAddress;
 
 
 NTSTATUS NTAPI MmCopyVirtualMemory
@@ -26,9 +25,19 @@ NTSTATUS NTAPI MmCopyVirtualMemory
 	PSIZE_T ReturnSize
 );
 
-NTSTATUS DispatchDeviceControl(
-	_In_ PDEVICE_OBJECT DeviceObject,
-	_Inout_ PIRP Irp
+NTSTATUS IoDispatchDeviceControl(
+	IN PDEVICE_OBJECT DeviceObject,
+	IN PIRP Irp
+);
+
+NTSTATUS IoReadRequest(
+	IN PDEVICE_OBJECT DeviceObject,
+	IN PIRP Irp
+);
+
+NTSTATUS IoWriteRequest(
+	IN PDEVICE_OBJECT DeviceObject,
+	IN PIRP Irp
 );
 
 NTSTATUS ReadVirtualMemory(

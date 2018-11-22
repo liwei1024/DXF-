@@ -1,8 +1,8 @@
 #include "ph.h"
 
 UNICODE_STRING SymbolicLinkName;
-HANDLE GameProcessId;
-PVOID GameImageBase;
+HANDLE TargetProcessId;
+PVOID TargetProcessBaseAddress;
 
 
 NTSTATUS DefaultDispatchFunction(
@@ -27,8 +27,8 @@ VOID NotifyImageLoadCallback(
 		dprintf("GameName %ls\n", FullImageName->Buffer);
 		dprintf("GameProcessId %d\n", ProcessId);
 		dprintf("GameImageBase %x\n", ImageInfo->ImageBase);
-		GameProcessId = ProcessId;
-		GameImageBase = ImageInfo->ImageBase;
+		TargetProcessId = ProcessId;
+		TargetProcessBaseAddress = ImageInfo->ImageBase;
 	}
 }
 
@@ -52,37 +52,41 @@ NTSTATUS DriverEntry(
 	_In_ PUNICODE_STRING RegistryPath
 )
 {
-	NTSTATUS status = STATUS_SUCCESS;
+	NTSTATUS Status = STATUS_SUCCESS;
 	PDEVICE_OBJECT DeviceObject;
 	UNICODE_STRING DeviceName;
 
 	RtlInitUnicodeString(&DeviceName,DEVICE_NAME);
-	status = IoCreateDevice(DriverObject, 0, &DeviceName, FILE_DEVICE_UNKNOWN, FILE_DEVICE_SECURE_OPEN, FALSE, &DeviceObject);
-	if (!NT_SUCCESS(status))
+	Status = IoCreateDevice(DriverObject, 0, &DeviceName, FILE_DEVICE_UNKNOWN, FILE_DEVICE_SECURE_OPEN, FALSE, &DeviceObject);
+	if (!NT_SUCCESS(Status))
 	{
 		dprintf("Create DeviceObject Failure");
-		return status;
+		return Status;
 	}
 	RtlInitUnicodeString(&SymbolicLinkName, SYMBOLIC_LINK_NAME);
-	status = IoCreateSymbolicLink(&SymbolicLinkName,&DeviceName);
-	if (!NT_SUCCESS(status))
+	Status = IoCreateSymbolicLink(&SymbolicLinkName,&DeviceName);
+	if (!NT_SUCCESS(Status))
 	{
 		dprintf("Create SymbolicLink Failure");
 		IoDeleteDevice(DeviceObject);
-		return status;
+		return Status;
 	}
 
 	for (size_t i = 0; i < IRP_MJ_MAXIMUM_FUNCTION; i++)
 	{
 		DriverObject->MajorFunction[i] = DefaultDispatchFunction;
 	}
-	DriverObject->MajorFunction[IRP_MJ_DEVICE_CONTROL] = DispatchDeviceControl;
+	DriverObject->MajorFunction[IRP_MJ_READ] = IoReadRequest;
+	DriverObject->MajorFunction[IRP_MJ_WRITE] = IoWriteRequest;
+	DriverObject->MajorFunction[IRP_MJ_DEVICE_CONTROL] = IoDispatchDeviceControl;
 	DriverObject->DriverUnload = DriverUnload;
-	DriverObject->Flags &= ~DO_DEVICE_INITIALIZING;
+
+	DriverObject->Flags |= DO_BUFFERED_IO;
+	DeviceObject->Flags &= (~DO_DEVICE_INITIALIZING);
 
 	PsSetLoadImageNotifyRoutine(NotifyImageLoadCallback);
 
-	return status;
+	return Status;
 }
 
 

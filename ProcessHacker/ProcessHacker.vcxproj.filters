@@ -30,7 +30,7 @@
     <ClCompile Include="memory.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="devctl.c">
+    <ClCompile Include="io.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
