@@ -22,11 +22,11 @@ VOID NotifyImageLoadCallback(
 	_In_ PIMAGE_INFO ImageInfo
 )
 {
-	if (wcsstr(FullImageName->Buffer, L"YoudaoDict.exe") && wcsstr(FullImageName->Buffer, L"Device"))
+	if (wcsstr(FullImageName->Buffer, TARGET_PROCESS_NAME) && wcsstr(FullImageName->Buffer, L"Device"))
 	{
-		dprintf("GameName %ls\n", FullImageName->Buffer);
-		dprintf("GameProcessId %d\n", ProcessId);
-		dprintf("GameImageBase %x\n", ImageInfo->ImageBase);
+		dprintf("TargetName %ls\n", FullImageName->Buffer);
+		dprintf("TargetProcessId %d\n", ProcessId);
+		dprintf("TargetImageBase %x\n", ImageInfo->ImageBase);
 		TargetProcessId = ProcessId;
 		TargetProcessBaseAddress = ImageInfo->ImageBase;
 	}
