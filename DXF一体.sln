@@ -4,11 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "控制台版", "控制台版\控制台版.vcxproj", "{D0FB1002-CF38-466F-8D58-25829D4ABF9A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{828AFD61-12F8-4EE2-8113-4438A9E31506} = {828AFD61-12F8-4EE2-8113-4438A9E31506}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProcessHacker", "ProcessHacker\ProcessHacker.vcxproj", "{828AFD61-12F8-4EE2-8113-4438A9E31506}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RW", "RW\RW.vcxproj", "{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +55,30 @@ Global
 		{828AFD61-12F8-4EE2-8113-4438A9E31506}.Release|x64.Build.0 = Release|x64
 		{828AFD61-12F8-4EE2-8113-4438A9E31506}.Release|x86.ActiveCfg = Release|x64
 		{828AFD61-12F8-4EE2-8113-4438A9E31506}.Release|x86.Build.0 = Release|x64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|ARM.ActiveCfg = Debug|ARM
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|ARM.Build.0 = Debug|ARM
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|ARM.Deploy.0 = Debug|ARM
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|ARM64.Build.0 = Debug|ARM64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|x64.ActiveCfg = Debug|x64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|x64.Build.0 = Debug|x64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|x64.Deploy.0 = Debug|x64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|x86.ActiveCfg = Debug|Win32
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|x86.Build.0 = Debug|Win32
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Debug|x86.Deploy.0 = Debug|Win32
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|ARM.ActiveCfg = Release|ARM
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|ARM.Build.0 = Release|ARM
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|ARM.Deploy.0 = Release|ARM
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|ARM64.ActiveCfg = Release|ARM64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|ARM64.Build.0 = Release|ARM64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|ARM64.Deploy.0 = Release|ARM64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|x64.ActiveCfg = Release|x64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|x64.Build.0 = Release|x64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|x64.Deploy.0 = Release|x64
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|x86.ActiveCfg = Release|Win32
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|x86.Build.0 = Release|Win32
+		{C8BB4BBB-4FA2-4A6A-83FB-4DF9C78F015F}.Release|x86.Deploy.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
