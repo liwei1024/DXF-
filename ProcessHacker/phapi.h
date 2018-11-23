@@ -1,7 +1,7 @@
 #ifndef __PHAPI_H__
 #define __PHAPI_H__
 
-#define TARGET_PROCESS_NAME L"YoudaoDict.exe"
+#define TARGET_PROCESS_NAME L"DNF.exe"
 #define DEVICE_SHOST_NAME L"ph"
 #define DEVICE_NAME (L"\\Device\\" DEVICE_SHOST_NAME)
 #define SYMBOLIC_LINK_SHORT_NAME L"link_ph"

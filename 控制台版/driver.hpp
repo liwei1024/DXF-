@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../ProcessHacker/phapi.h"
-static HANDLE hDriver = NULL;
+extern HANDLE hDriver;
 
 static HANDLE GetDriverHandle() {
 	HANDLE DriverHandle = NULL;
