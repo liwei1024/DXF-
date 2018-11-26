@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="driver.hpp" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="rw2.hpp" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>

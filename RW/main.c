@@ -24,8 +24,9 @@ VOID NotifyImageLoadCallback(PUNICODE_STRING w_FullImageName, HANDLE w_ProcessId
 		PUID = w_ProcessId;
 		PUBase = GetSectionBaseAddress(w_ProcessId);
 		PUBGepGame = GetEpGameIdByProcess(w_ProcessId);
-		DbgPrint("PUBGepGame %x", PUBGepGame);
-		DbgPrint("w_ImageInfo->ImageBase %p", w_ImageInfo->ImageBase);
+		//DbgPrint("PUBGepGame %x", PUBGepGame);
+		//DbgPrint("w_ImageInfo->ImageBase %p", w_ImageInfo->ImageBase);
+
 	}
 }
 
@@ -105,8 +106,8 @@ NTSTATUS ReadMemOutputClient(pReadStruct w_poReadStruct)
 		__try
 		{
 			KeStackAttachProcess(hClient, &apc_state);
-			ProbeForRead((CONST PVOID)w_poReadStruct->UserBufferAdress, w_poReadStruct->ReadSize, sizeof(CHAR));
-			RtlCopyMemory(w_poReadStruct->UserBufferAdress, &PUBase, w_poReadStruct->ReadSize);
+			ProbeForRead((PVOID)w_poReadStruct->UserBufferAdress, w_poReadStruct->ReadSize, sizeof(CHAR));
+			RtlCopyMemory((PVOID)w_poReadStruct->UserBufferAdress, &PUBase, w_poReadStruct->ReadSize);
 			KeUnstackDetachProcess(&apc_state);
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER)
@@ -121,12 +122,12 @@ NTSTATUS ReadMemOutputClient(pReadStruct w_poReadStruct)
 		__try
 		{
 			KeStackAttachProcess(hGame, &apc_state);
-			ProbeForRead((CONST PVOID)w_poReadStruct->GameAddressOffset, w_poReadStruct->ReadSize, sizeof(CHAR));
+			ProbeForRead((PVOID)w_poReadStruct->GameAddressOffset, w_poReadStruct->ReadSize, sizeof(CHAR));
 			PMDL pMdl;
 			PUCHAR SrcAddress;
-			if (MmIsAddressValid((CONST PVOID)w_poReadStruct->GameAddressOffset))
+			if (MmIsAddressValid((PVOID)w_poReadStruct->GameAddressOffset))
 			{
-				pMdl = IoAllocateMdl((CONST PVOID)w_poReadStruct->GameAddressOffset, w_poReadStruct->ReadSize, FALSE, FALSE, NULL);
+				pMdl = IoAllocateMdl((PVOID)w_poReadStruct->GameAddressOffset, (ULONG)w_poReadStruct->ReadSize, FALSE, FALSE, NULL);
 
 				if (MmIsAddressValid(pMdl))
 				{
@@ -148,8 +149,8 @@ NTSTATUS ReadMemOutputClient(pReadStruct w_poReadStruct)
 		__try
 		{
 			KeStackAttachProcess(hClient, &apc_state);
-			ProbeForRead((CONST PVOID)w_poReadStruct->UserBufferAdress, w_poReadStruct->ReadSize, sizeof(CHAR));
-			RtlCopyMemory(w_poReadStruct->UserBufferAdress, DriverBuffer, w_poReadStruct->ReadSize);
+			ProbeForRead((PVOID)w_poReadStruct->UserBufferAdress, w_poReadStruct->ReadSize, sizeof(CHAR));
+			RtlCopyMemory((PVOID)w_poReadStruct->UserBufferAdress, DriverBuffer, w_poReadStruct->ReadSize);
 			KeUnstackDetachProcess(&apc_state);
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER)
@@ -163,8 +164,8 @@ NTSTATUS ReadMemOutputClient(pReadStruct w_poReadStruct)
 		__try
 		{
 			KeStackAttachProcess(hClient, &apc_state);
-			ProbeForRead((CONST PVOID)w_poReadStruct->UserBufferAdress, w_poReadStruct->ReadSize, sizeof(CHAR));
-			RtlCopyMemory(DriverBuffer, w_poReadStruct->UserBufferAdress, w_poReadStruct->ReadSize);
+			ProbeForRead((PVOID)w_poReadStruct->UserBufferAdress, w_poReadStruct->ReadSize, sizeof(CHAR));
+			RtlCopyMemory(DriverBuffer, (PVOID)w_poReadStruct->UserBufferAdress, w_poReadStruct->ReadSize);
 			KeUnstackDetachProcess(&apc_state);
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER)
@@ -175,8 +176,8 @@ NTSTATUS ReadMemOutputClient(pReadStruct w_poReadStruct)
 		__try
 		{
 			KeStackAttachProcess(hGame, &apc_state);
-			ProbeForRead((CONST PVOID)w_poReadStruct->GameAddressOffset, w_poReadStruct->ReadSize, sizeof(CHAR));
-			RtlCopyMemory(w_poReadStruct->GameAddressOffset, DriverBuffer, w_poReadStruct->ReadSize);
+			ProbeForRead((PVOID)w_poReadStruct->GameAddressOffset, w_poReadStruct->ReadSize, sizeof(CHAR));
+			RtlCopyMemory((PVOID)w_poReadStruct->GameAddressOffset, DriverBuffer, w_poReadStruct->ReadSize);
 			KeUnstackDetachProcess(&apc_state);
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER)
