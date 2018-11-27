@@ -22,21 +22,18 @@ NTSTATUS DispatchDeviceControl(
 				rvms = (PREAD_VIRTUAL_MEMORY_STRUCT)Irp->AssociatedIrp.SystemBuffer;
 				if (rvms)
 				{
-					dprintf("rvms Success1");
-					ReadVirtualMemory(rvms);
+					Status = ReadVirtualMemory(rvms);
 				}
-				dprintf("read test");
 				Irp->IoStatus.Information = sizeof(READ_VIRTUAL_MEMORY_STRUCT);
 			}
 			break;
 		case WRITE_VIRTUAL_MEMORY:
 			{
 				wvms = (PWRITE_VIRTUAL_MEMORY_STRUCT)Irp->AssociatedIrp.SystemBuffer;
-				/*if (wvms)
+				if (wvms)
 				{
-					WriteVirtualMemory(wvms);
-				}*/
-				dprintf("write test");
+					Status = WriteVirtualMemory(wvms);
+				}
 				Irp->IoStatus.Information = sizeof(WRITE_VIRTUAL_MEMORY_STRUCT);
 			}
 			break;

@@ -27,10 +27,10 @@ NTSTATUS DispatchDeviceControl(
 	IN PIRP Irp
 );
 
-VOID ReadVirtualMemory(
+NTSTATUS ReadVirtualMemory(
 	PREAD_VIRTUAL_MEMORY_STRUCT rvms
 );
 
-VOID WriteVirtualMemory(
+NTSTATUS WriteVirtualMemory(
 	PWRITE_VIRTUAL_MEMORY_STRUCT wvms
 );

@@ -48,11 +48,32 @@ public:
 	T rvm(DWORD_PTR dwBaseAddress)
 	{
 		READ_VIRTUAL_MEMORY_STRUCT rvms;
+		T Response;
+		rvms.Response = &Response;
 		rvms.Address = (ULONG)dwBaseAddress;
 		rvms.Size = sizeof(T);
 		DeviceIoControl(hDriver, READ_VIRTUAL_MEMORY, &rvms, sizeof(rvms), &rvms, sizeof(rvms), 0, 0);
-		return T(rvms.Response);
+		return Response;
 	}
 
+	template<typename T>
+	BOOL wvm(DWORD_PTR dwBaseAddress, T Value)
+	{
+		WRITE_VIRTUAL_MEMORY_STRUCT wvms;
+		wvms.Address = (ULONG)dwBaseAddress;
+		wvms.Value = &Value;
+		wvms.Size = sizeof(T);
+		return DeviceIoControl(hDriver, WRITE_VIRTUAL_MEMORY, &wvms, sizeof(wvms), &wvms, sizeof(wvms), 0, 0);
+	}
 
+	std::wstring read_wstring(DWORD_PTR dwBaseAddress,SIZE_T length)
+	{
+		wchar_t *buffer = new wchar_t[length];
+		READ_VIRTUAL_MEMORY_STRUCT rvms;
+		rvms.Response = buffer;
+		rvms.Address = (ULONG)dwBaseAddress;
+		rvms.Size = length - 2;
+		DeviceIoControl(hDriver, READ_VIRTUAL_MEMORY, &rvms, sizeof(rvms), &rvms, sizeof(rvms), 0, 0);
+		return std::wstring(buffer, rvms.Size);
+	}
 };
