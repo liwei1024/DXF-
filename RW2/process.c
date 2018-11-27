@@ -208,8 +208,6 @@ MmLockVaForWrite(
 
 	if (!ReprotectContext->LockedVa)
 	{
-
-
 		IoFreeMdl(
 			ReprotectContext->Mdl
 		);
@@ -229,8 +227,6 @@ MmLockVaForWrite(
 
 	if (!NT_SUCCESS(Status))
 	{
-
-
 		MmUnmapLockedPages(
 			ReprotectContext->LockedVa,
 			ReprotectContext->Mdl
