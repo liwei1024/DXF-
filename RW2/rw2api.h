@@ -1,4 +1,5 @@
 #pragma once
+//#define TARGET_PROCESS_NAME L"DNF.exe"
 #define TARGET_PROCESS_NAME L"YoudaoDict.exe"
 #define DEVICE_SHOST_NAME L"RW2"
 #define DEVICE_NAME (L"\\Device\\" DEVICE_SHOST_NAME)
