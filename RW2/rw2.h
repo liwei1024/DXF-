@@ -11,6 +11,12 @@
 extern HANDLE TargetProcessId;
 extern PVOID TargetProcessBaseAddress;
 
+typedef struct _REPROTECT_CONTEXT
+{
+	PMDL   Mdl;
+	PUCHAR LockedVa;
+} REPROTECT_CONTEXT, *PREPROTECT_CONTEXT;
+
 NTSTATUS NTAPI MmCopyVirtualMemory
 (
 	PEPROCESS SourceProcess,
@@ -21,6 +27,7 @@ NTSTATUS NTAPI MmCopyVirtualMemory
 	KPROCESSOR_MODE PreviousMode,
 	PSIZE_T ReturnSize
 );
+
 
 NTSTATUS DispatchDeviceControl(
 	IN PDEVICE_OBJECT DeviceObject,
@@ -33,4 +40,16 @@ NTSTATUS ReadVirtualMemory(
 
 NTSTATUS WriteVirtualMemory(
 	PWRITE_VIRTUAL_MEMORY_STRUCT wvms
+);
+
+NTSTATUS
+MmLockVaForWrite(
+	PVOID Va,
+	ULONG Length,
+	PREPROTECT_CONTEXT ReprotectContext
+);
+
+NTSTATUS
+MmUnlockVaForWrite(
+	PREPROTECT_CONTEXT ReprotectContext
 );

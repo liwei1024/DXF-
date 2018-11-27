@@ -7,7 +7,7 @@ private:
 	HANDLE hDriver;
 public:
 	DWORD dwProcessId;
-	DWORD_PTR dwProcessBaseAddress;
+	DWORD dwProcessBaseAddress;
 	void Init()
 	{
 		hDriver = CreateFile(
@@ -25,9 +25,7 @@ public:
 			exit(0);
 		}
 		dwProcessId = getProcessId();
-		printf("dwProcessId %d\n", dwProcessId);
 		dwProcessBaseAddress = getProcessBaseAddress();
-		printf("dwProcessBaseAddress %llx\n", dwProcessBaseAddress);
 	}
 	
 	DWORD getProcessId()
@@ -37,91 +35,89 @@ public:
 		return pid;
 	}
 
-	DWORD_PTR getProcessBaseAddress()
+	DWORD getProcessBaseAddress()
 	{
 		ULONG baseAddress;
 		DeviceIoControl(hDriver, GET_PROCESS_BASE_ADDRESS, &baseAddress, sizeof(baseAddress), &baseAddress, sizeof(baseAddress), 0, 0);
 		return baseAddress;
 	}
 
-	template<typename T>
-	T rvm(DWORD_PTR dwBaseAddress)
+	BOOL readVirtualMemory(ULONG Address,PVOID Response,SIZE_T Size)
 	{
 		READ_VIRTUAL_MEMORY_STRUCT rvms;
+		rvms.Response = Response;
+		rvms.Address = Address;
+		rvms.Size = Size;
+		return DeviceIoControl(hDriver, READ_VIRTUAL_MEMORY, &rvms, sizeof(rvms), &rvms, sizeof(rvms), 0, 0);
+	}
+
+	BOOL writeVirtualMemory(ULONG Address, PVOID Value, SIZE_T Size)
+	{
+		WRITE_VIRTUAL_MEMORY_STRUCT wvms;
+		wvms.Address = Address;
+		wvms.Value = Value;
+		wvms.Size = Size;
+		return DeviceIoControl(hDriver, WRITE_VIRTUAL_MEMORY, &wvms, sizeof(wvms), &wvms, sizeof(wvms), 0, 0);
+	}
+
+	template<typename T>
+	T read(DWORD_PTR dwBaseAddress)
+	{
 		T Response;
-		rvms.Response = &Response;
-		rvms.Address = (ULONG)dwBaseAddress;
-		rvms.Size = sizeof(T);
-		DeviceIoControl(hDriver, READ_VIRTUAL_MEMORY, &rvms, sizeof(rvms), &rvms, sizeof(rvms), 0, 0);
+		readVirtualMemory((ULONG)dwBaseAddress, &Response , sizeof(T));
 		return Response;
 	}
 
 	template<typename T>
-	BOOL wvm(DWORD_PTR dwBaseAddress, T Value)
+	BOOL write(DWORD_PTR dwBaseAddress, T Value)
 	{
-		WRITE_VIRTUAL_MEMORY_STRUCT wvms;
-		wvms.Address = (ULONG)dwBaseAddress;
-		wvms.Value = &Value;
-		wvms.Size = sizeof(T);
-		return DeviceIoControl(hDriver, WRITE_VIRTUAL_MEMORY, &wvms, sizeof(wvms), &wvms, sizeof(wvms), 0, 0);
+		return writeVirtualMemory((ULONG)dwBaseAddress,&Value,sizeof(T));
 	}
 
-	std::wstring read_wstring(DWORD_PTR dwBaseAddress,SIZE_T size)
+	std::wstring readWString(DWORD_PTR dwBaseAddress,SIZE_T Size)
 	{
-		wchar_t *buffer = new wchar_t[size];
-		READ_VIRTUAL_MEMORY_STRUCT rvms;
-		rvms.Response = buffer;
-		rvms.Address = (ULONG)dwBaseAddress;
-		rvms.Size = size;
-		DeviceIoControl(hDriver, READ_VIRTUAL_MEMORY, &rvms, sizeof(rvms), &rvms, sizeof(rvms), 0, 0);
-		std::wstring wstr(buffer, rvms.Size);
+		wchar_t *buffer = new wchar_t[Size];
+		readVirtualMemory((ULONG)dwBaseAddress, buffer, Size);
+		std::wstring wstr(buffer, Size);
 		delete[]buffer;
 		return wstr;
 	}
 
-	std::string read_string(DWORD_PTR dwBaseAddress, SIZE_T size)
+	std::string readString(DWORD_PTR dwBaseAddress, SIZE_T Size)
 	{
-		char *buffer = new char[size];
-		READ_VIRTUAL_MEMORY_STRUCT rvms;
-		rvms.Response = buffer;
-		rvms.Address = (ULONG)dwBaseAddress;
-		rvms.Size = size;
-		DeviceIoControl(hDriver, READ_VIRTUAL_MEMORY, &rvms, sizeof(rvms), &rvms, sizeof(rvms), 0, 0);
-		std::string str(buffer, rvms.Size);
+		char *buffer = new char[Size];
+		readVirtualMemory((ULONG)dwBaseAddress, buffer, Size);
+		std::string str(buffer, Size);
 		delete[]buffer;
 		return str;
 	}
 
-	std::vector<byte> read_bytes(DWORD_PTR dwBaseAddress, SIZE_T size)
+	std::vector<byte> readBytes(DWORD_PTR dwBaseAddress, SIZE_T Size)
 	{
 		std::vector<byte> bytes;
-		byte * buffer = new byte[size];
-		READ_VIRTUAL_MEMORY_STRUCT rvms;
-		rvms.Response = buffer;
-		rvms.Address = (ULONG)dwBaseAddress;
-		rvms.Size = size;
-		DeviceIoControl(hDriver, READ_VIRTUAL_MEMORY, &rvms, sizeof(rvms), &rvms, sizeof(rvms), 0, 0);
-
-		for (size_t i = 0; i < size; i++)
+		byte * buffer = new byte[Size];
+		readVirtualMemory((ULONG)dwBaseAddress, buffer, Size);
+		for (size_t i = 0; i < Size; i++)
 		{
-			bytes[i] = buffer[i];
+			bytes.insert(bytes.end(), buffer[i]);
 		}
+		delete[]buffer;
 		return bytes;
 	}
 
-	BOOL write_bytes(DWORD_PTR dwBaseAddress, std::vector<byte> bytes)
+	BOOL writeBytes(DWORD_PTR dwBaseAddress, std::vector<byte> Bytes)
 	{
-		WRITE_VIRTUAL_MEMORY_STRUCT wvms;
-		byte * buffer = new byte[bytes.size()];
-
-		for (size_t i = 0; i < bytes.size(); i++)
+		byte * buffer = new byte[Bytes.size()];
+		for (size_t i = 0; i < Bytes.size(); i++)
 		{
-			buffer[i] = bytes[i];
+			buffer[i] = Bytes[i];
 		}
-		
-		wvms.Address = (ULONG)dwBaseAddress;
-		wvms.Value = buffer;
-		wvms.Size = bytes.size();
-		return DeviceIoControl(hDriver, WRITE_VIRTUAL_MEMORY, &wvms, sizeof(wvms), &wvms, sizeof(wvms), 0, 0);
+		BOOL result = writeVirtualMemory((ULONG)dwBaseAddress, buffer, Bytes.size());
+		delete[]buffer;
+		if (result == FALSE)
+		{
+			printf("write_bytes false");
+		}
+		return result;
 	}
 };

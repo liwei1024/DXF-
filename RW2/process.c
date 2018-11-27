@@ -1,6 +1,7 @@
 #include "rw2.h"
 
 
+
 NTSTATUS ReadVirtualMemory(
 	PREAD_VIRTUAL_MEMORY_STRUCT rvms
 )
@@ -8,7 +9,7 @@ NTSTATUS ReadVirtualMemory(
 	NTSTATUS Status = STATUS_SUCCESS;
 	PEPROCESS TargetProcess,ClientProcess;
 	KAPC_STATE apc_state;
-	PVOID DriverBuffer;
+	PVOID DriverBuffer = NULL;
 	PMDL pMdl;
 	PUCHAR SrcAddress;
 
@@ -60,6 +61,7 @@ NTSTATUS ReadVirtualMemory(
 		}
 		ObDereferenceObject(TargetProcess);
 	}
+	ExFreePool(DriverBuffer);
 	return Status;
 }
 
@@ -70,7 +72,7 @@ NTSTATUS WriteVirtualMemory(
 	NTSTATUS Status = STATUS_SUCCESS;
 	PEPROCESS TargetProcess, ClientProcess;
 	KAPC_STATE apc_state;
-	PVOID DriverBuffer;
+	PVOID DriverBuffer = NULL;
 
 	Status = PsLookupProcessByProcessId(TargetProcessId, &TargetProcess);
 	if (NT_SUCCESS(Status))
@@ -103,6 +105,132 @@ NTSTATUS WriteVirtualMemory(
 		}
 		ObDereferenceObject(TargetProcess);
 	}
+	ExFreePool(DriverBuffer);
 	return Status;
 }
 
+
+
+
+//修改内存属性（有问题）
+NTSTATUS
+MmLockVaForWrite(
+	__in PVOID Va,
+	__in ULONG Length,
+	__out PREPROTECT_CONTEXT ReprotectContext
+)
+{
+	NTSTATUS Status;
+
+	Status = STATUS_SUCCESS;
+
+	ReprotectContext->Mdl = 0;
+	ReprotectContext->LockedVa = 0;
+
+	ReprotectContext->Mdl = IoAllocateMdl(
+		Va,
+		Length,
+		FALSE,
+		FALSE,
+		0
+	);
+
+	if (!ReprotectContext->Mdl)
+	{
+		return STATUS_INSUFFICIENT_RESOURCES;
+	}
+
+	//  
+	// Retrieve a locked VA mapping.  
+	//  
+
+	__try
+	{
+		MmProbeAndLockPages(
+			ReprotectContext->Mdl,
+			KernelMode,
+			IoModifyAccess
+		);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		return GetExceptionCode();
+	}
+
+	ReprotectContext->LockedVa = (PUCHAR)MmMapLockedPagesSpecifyCache(
+		ReprotectContext->Mdl,
+		KernelMode,
+		MmCached,
+		0,
+		FALSE,
+		NormalPagePriority
+	);
+
+	if (!ReprotectContext->LockedVa)
+	{
+
+
+		IoFreeMdl(
+			ReprotectContext->Mdl
+		);
+
+		ReprotectContext->Mdl = 0;
+
+		return STATUS_ACCESS_VIOLATION;
+	}
+
+	//  
+	// Reprotect.  
+	//  
+
+	Status = MmProtectMdlSystemAddress(
+		ReprotectContext->Mdl,
+		PAGE_EXECUTE_READWRITE
+	);
+
+	if (!NT_SUCCESS(Status))
+	{
+
+
+		MmUnmapLockedPages(
+			ReprotectContext->LockedVa,
+			ReprotectContext->Mdl
+		);
+		MmUnlockPages(
+			ReprotectContext->Mdl
+		);
+		IoFreeMdl(
+			ReprotectContext->Mdl
+		);
+
+		ReprotectContext->LockedVa = 0;
+		ReprotectContext->Mdl = 0;
+	}
+
+	return Status;
+}
+//还原内存属性（有问题）
+NTSTATUS
+MmUnlockVaForWrite(
+	__in PREPROTECT_CONTEXT ReprotectContext
+)
+{
+	if (ReprotectContext->LockedVa)
+	{
+		MmUnmapLockedPages(
+			ReprotectContext->LockedVa,
+			ReprotectContext->Mdl
+		);
+		MmUnlockPages(
+			ReprotectContext->Mdl
+		);
+		IoFreeMdl(
+			ReprotectContext->Mdl
+		);
+
+		ReprotectContext->LockedVa = 0;
+		ReprotectContext->Mdl = 0;
+	}
+
+	return STATUS_SUCCESS;
+}
