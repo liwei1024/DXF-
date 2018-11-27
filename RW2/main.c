@@ -83,7 +83,12 @@ NTSTATUS DriverEntry(
 	DriverObject->Flags |= DO_BUFFERED_IO;
 	DeviceObject->Flags &= (~DO_DEVICE_INITIALIZING);
 
-	PsSetLoadImageNotifyRoutine(NotifyImageLoadCallback);
-
+	Status = PsSetLoadImageNotifyRoutine(NotifyImageLoadCallback);
+	if (!NT_SUCCESS(Status))
+	{
+		dprintf("Create LoadImageNotifyRoutine Failure");
+		IoDeleteSymbolicLink(&SymbolicLinkName);
+		IoDeleteDevice(DeviceObject);
+	}
 	return Status;
 }

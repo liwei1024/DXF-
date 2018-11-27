@@ -66,14 +66,62 @@ public:
 		return DeviceIoControl(hDriver, WRITE_VIRTUAL_MEMORY, &wvms, sizeof(wvms), &wvms, sizeof(wvms), 0, 0);
 	}
 
-	std::wstring read_wstring(DWORD_PTR dwBaseAddress,SIZE_T length)
+	std::wstring read_wstring(DWORD_PTR dwBaseAddress,SIZE_T size)
 	{
-		wchar_t *buffer = new wchar_t[length];
+		wchar_t *buffer = new wchar_t[size];
 		READ_VIRTUAL_MEMORY_STRUCT rvms;
 		rvms.Response = buffer;
 		rvms.Address = (ULONG)dwBaseAddress;
-		rvms.Size = length - 2;
+		rvms.Size = size;
 		DeviceIoControl(hDriver, READ_VIRTUAL_MEMORY, &rvms, sizeof(rvms), &rvms, sizeof(rvms), 0, 0);
-		return std::wstring(buffer, rvms.Size);
+		std::wstring wstr(buffer, rvms.Size);
+		delete[]buffer;
+		return wstr;
+	}
+
+	std::string read_string(DWORD_PTR dwBaseAddress, SIZE_T size)
+	{
+		char *buffer = new char[size];
+		READ_VIRTUAL_MEMORY_STRUCT rvms;
+		rvms.Response = buffer;
+		rvms.Address = (ULONG)dwBaseAddress;
+		rvms.Size = size;
+		DeviceIoControl(hDriver, READ_VIRTUAL_MEMORY, &rvms, sizeof(rvms), &rvms, sizeof(rvms), 0, 0);
+		std::string str(buffer, rvms.Size);
+		delete[]buffer;
+		return str;
+	}
+
+	std::vector<byte> read_bytes(DWORD_PTR dwBaseAddress, SIZE_T size)
+	{
+		std::vector<byte> bytes;
+		byte * buffer = new byte[size];
+		READ_VIRTUAL_MEMORY_STRUCT rvms;
+		rvms.Response = buffer;
+		rvms.Address = (ULONG)dwBaseAddress;
+		rvms.Size = size;
+		DeviceIoControl(hDriver, READ_VIRTUAL_MEMORY, &rvms, sizeof(rvms), &rvms, sizeof(rvms), 0, 0);
+
+		for (size_t i = 0; i < size; i++)
+		{
+			bytes[i] = buffer[i];
+		}
+		return bytes;
+	}
+
+	BOOL write_bytes(DWORD_PTR dwBaseAddress, std::vector<byte> bytes)
+	{
+		WRITE_VIRTUAL_MEMORY_STRUCT wvms;
+		byte * buffer = new byte[bytes.size()];
+
+		for (size_t i = 0; i < bytes.size(); i++)
+		{
+			buffer[i] = bytes[i];
+		}
+		
+		wvms.Address = (ULONG)dwBaseAddress;
+		wvms.Value = buffer;
+		wvms.Size = bytes.size();
+		return DeviceIoControl(hDriver, WRITE_VIRTUAL_MEMORY, &wvms, sizeof(wvms), &wvms, sizeof(wvms), 0, 0);
 	}
 };
