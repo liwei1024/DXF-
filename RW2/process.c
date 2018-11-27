@@ -60,8 +60,9 @@ NTSTATUS ReadVirtualMemory(
 			}
 		}
 		ObDereferenceObject(TargetProcess);
+		ExFreePool(DriverBuffer);
 	}
-	ExFreePool(DriverBuffer);
+	
 	return Status;
 }
 
@@ -104,8 +105,9 @@ NTSTATUS WriteVirtualMemory(
 			Status = STATUS_ABANDONED;
 		}
 		ObDereferenceObject(TargetProcess);
+		ExFreePool(DriverBuffer);
 	}
-	ExFreePool(DriverBuffer);
+	
 	return Status;
 }
 
@@ -178,7 +180,6 @@ MmLockVaForWrite(
 
 		return STATUS_ACCESS_VIOLATION;
 	}
-
 	//  
 	// Reprotect.  
 	//  
