@@ -53,3 +53,11 @@ NTSTATUS
 MmUnlockVaForWrite(
 	PREPROTECT_CONTEXT ReprotectContext
 );
+
+UCHAR *
+PsGetProcessImageFileName(
+	__in PEPROCESS Process
+);
+
+void  WPOFF(void);
+void  WPON(void);

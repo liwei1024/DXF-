@@ -1,6 +1,46 @@
 #include "rw2.h"
 
+//去掉页面保护
+void  WPOFF(void)
+{
 
+#ifdef _WIN64
+
+	_disable();
+	DWORD64 cr0 = __readcr0();
+	cr0 &= 0xfffffffffffeffff;
+	__writecr0(cr0);
+	//	_enable();
+
+#else
+	__asm
+	{
+		cli
+		mov eax, cr0
+		and eax, not 10000h
+		mov cr0, eax
+	}
+#endif
+}
+
+//设置页面保护
+void  WPON(void)
+{
+#ifdef _WIN64
+	_disable();
+	DWORD64 cr0 = __readcr0();
+	cr0 |= 0x10000;
+	__writecr0(cr0);
+#else
+	__asm
+	{
+		mov eax, cr0
+		or eax, 10000h
+		mov cr0, eax
+		sti
+	}
+#endif
+}
 
 NTSTATUS ReadVirtualMemory(
 	PREAD_VIRTUAL_MEMORY_STRUCT rvms
@@ -110,8 +150,6 @@ NTSTATUS WriteVirtualMemory(
 	
 	return Status;
 }
-
-
 
 
 //修改内存属性（有问题）
@@ -235,3 +273,7 @@ MmUnlockVaForWrite(
 
 	return STATUS_SUCCESS;
 }
+
+
+
+
