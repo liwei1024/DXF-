@@ -158,12 +158,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="driver.hpp" />
+    <ClInclude Include="consts.h" />
+    <ClInclude Include="function.h" />
+    <ClInclude Include="game_status_0.h" />
+    <ClInclude Include="game_status_1.h" />
+    <ClInclude Include="game_status_2.h" />
+    <ClInclude Include="game_status_3.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="memory.hpp" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="rw2.hpp" />
+    <ClInclude Include="role.h" />
+    <ClInclude Include="rw2.h" />
+    <ClInclude Include="structs.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="function.cpp" />
+    <ClCompile Include="game_status_0.cpp" />
+    <ClCompile Include="game_status_1.cpp" />
+    <ClCompile Include="game_status_2.cpp" />
+    <ClCompile Include="game_status_3.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -171,6 +185,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="role.cpp" />
+    <ClCompile Include="rw2.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
