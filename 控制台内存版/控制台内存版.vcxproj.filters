@@ -18,49 +18,31 @@
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="utils.h">
+    <ClInclude Include="call.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="consts.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="function.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="memory.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="rw2.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="global.h">
+    <ClInclude Include="send_packet.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="role.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="structs.h">
+    <ClInclude Include="status_0.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="game_status_0.h">
+    <ClInclude Include="status_1.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="game_status_1.h">
+    <ClInclude Include="status_2.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="game_status_2.h">
+    <ClInclude Include="task.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="game_status_3.h">
+    <ClInclude Include="status_3.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="memory_loader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="call.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="packet.h">
+    <ClInclude Include="functions.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,37 +53,31 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="function.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="rw2.cpp">
+    <ClCompile Include="send_packet.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="role.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="game_status_0.cpp">
+    <ClCompile Include="status_0.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="game_status_1.cpp">
+    <ClCompile Include="status_1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="game_status_2.cpp">
+    <ClCompile Include="status_2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="game_status_3.cpp">
+    <ClCompile Include="task.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="memory_loader.c">
+    <ClCompile Include="status_3.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="functions.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="call.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="packet.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

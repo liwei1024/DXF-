@@ -1,23 +1,17 @@
-#include "pch.h"
+#include <ctime>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <tchar.h>
+#include <windows.h>
 #include "utils.h"
 
 HANDLE msdk_handle;
 WINDOW_INFO game_window_info;
 
-M_OPEN_VIDPID M_Open_VidPid;
-M_RELEASEALLKEY M_ReleaseAllKey;
-M_KEYSTATE2 M_KeyState2;
-M_KEYDOWN2 M_KeyDown2;
-M_KEYUP2 M_KeyUp2;
-M_LEFTCLICK M_LeftClick;
-M_MOVETO2 M_MoveTo2;
-M_MOVETO3 M_MoveTo3;
-M_GETCURMOUSEPOS2 M_GetCurrMousePos2; 
-M_CLOSE M_Close;
-
-void utils::myprintf(const char *_Format,WORD Color,...)
+void utils::myprintf(const char *_Format, WORD Color, ...)
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),Color);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color);
 	va_list argList;
 	char buffer[0x1024];
 	va_start(argList, Color);
@@ -58,7 +52,7 @@ int utils::createRandom(int min, int max)
 }
 void utils::randomSleep(int min, int max)
 {
-	Sleep(createRandom(min,max));
+	Sleep(createRandom(min, max));
 }
 void utils::outputDbebugWString(const wchar_t *lpcszFormat, ...)
 {
@@ -82,69 +76,7 @@ void utils::outputDbebugString(const char *lpcszFormat, ...)
 	OutputDebugStringA(temp_buffer);
 	va_end(argList);
 }
-void utils::msdkInit()
-{
-	msdk_handle = M_Open_VidPid(0xc310, 0xc007);
-	if (msdk_handle == INVALID_HANDLE_VALUE) {
-		MessageBox(NULL, L"", L"端口打开失败，请确认您的USB设备已经插上电脑", MB_OK);
-	}
-	/*utils::myprintf("msdk_handle %d", RED, msdk_handle);
-	utils::moveMousePos(500, 500);
-	utils::myprintf("random %d", RED, M_RandDomNbr(1, 10));*/
-}
-void utils::upAllKey()
-{
-	M_ReleaseAllKey(msdk_handle);
-}
-void utils::keyDown(int keyCode)
-{
-	if (M_KeyState2(msdk_handle,keyCode) == 0)
-	{
-		M_KeyDown2(msdk_handle, keyCode);
-	}
-	
-}
-void utils::keyUp(int keyCode)
-{
-	if (M_KeyState2(msdk_handle, keyCode) == 1)
-	{
-		M_KeyUp2(msdk_handle, keyCode);
-	}
-}
-void utils::doKeyPress(int keyCode, int s)
-{
-	keyDown(keyCode);
-	Sleep(s + createRandom(1, 10));
-	keyUp(keyCode);
-}
-void utils::mouseClick()
-{
-	M_LeftClick(msdk_handle,1);
-}
-void utils::mouseDoubleClick(int s)
-{
-	mouseClick();
-	Sleep(s + createRandom(0, 10));
-	mouseClick();
-}
-void utils::moveMousePos(int x,int y)
-{
-	M_MoveTo2(msdk_handle,x, y);
-}
-void utils::setMousePos(int x, int y)
-{
-	M_MoveTo3(msdk_handle, x, y);
-}
-void utils::getMousePos(int *x, int *y)
-{
-	M_GetCurrMousePos2(x,y);
-}
 
-void utils::processExit()
-{
-	M_Close(msdk_handle);
-	exit(0);
-}
 
 void utils::windowInitialize()
 {
