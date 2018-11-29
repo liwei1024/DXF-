@@ -107,5 +107,5 @@ void utils::windowInitialize()
 
 void utils::remoteMainThreadCall(WPARAM callAddress)
 {
-	SendMessage(HWND_BROADCAST,10024, callAddress,0);
+	
 }

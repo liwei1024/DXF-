@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "call.h"
+#include "function.h"
 /*
 void Send_缓冲Call(DWORD cdov, DWORD len)
 {
@@ -33,8 +34,7 @@ CloseHandle(hRemoteThread);
 
 */
 
-#define __CALL地址 0x400500
-#define __参数地址 0x400800
+
 
 void call::技能Call(int pointer,int code,int damage,int x,int y,int z)
 {
@@ -56,10 +56,48 @@ void call::技能Call(int pointer,int code,int damage,int x,int y,int z)
 		0xff,0xd0,
 		0xc3
 	};
-	*(int*)(shell_code + 1) = __参数地址;
+	*(int*)(shell_code + 1) = __CALL参数;
 	*(int*)(shell_code + 6) = __技能CALL;
-	rw2.writeVirtualMemory(__CALL地址, shell_code, sizeof(shell_code));
-	rw2.writeVirtualMemory(__参数地址, skill_struct,sizeof(skill_struct));
-	//SendMessageW(hWnd,10024,0x400500,0);
+	
+	function::remoteMainThreadCall(shell_code,sizeof(shell_code),skill_struct,sizeof(skill_struct));
 
+}
+
+/*
+lw_test - 68 00010000           - push 00000100 { 256 }
+01830005- 68 00010000           - push 00000100 { 256 }
+0183000A- 68 00010000           - push 00000100 { 256 }
+0183000F- 68 00010000           - push 00000100 { 256 }
+01830014- 68 00020000           - push 00000200 { 512 }
+01830019- 68 00020000           - push 00000200 { 512 }
+0183001E- BF 00084000           - mov edi,00400800 { 4196352 }
+01830023- 8B C7                 - mov eax,edi
+01830025- FF D0                 - call eax
+01830027- 83 C4 24              - add esp,24 { 36 }
+0183002A- C3                    - ret
+
+*/
+void call::释放Call(int pointer, int code, int damage, int x, int y, int z)
+{
+	byte shell_code[] = {
+		0x68,0x00,0x00,0x00,0x00,
+		0x68,0x00,0x00,0x00,0x00,
+		0x68,0x00,0x00,0x00,0x00,
+		0x68,0x00,0x00,0x00,0x00,
+		0x68,0x00,0x00,0x00,0x00,
+		0x68,0x00,0x00,0x00,0x00,
+		0xBF,0x00,0x00,0x00,0x00,
+		0x8B,0xC7,
+		0xFF,0xD0,
+		0x83,0xC4,0x24,
+		0xC3,
+	};
+	*(int*)(shell_code + 1) = z;
+	*(int*)(shell_code + 6) = y;
+	*(int*)(shell_code + 11) = x;
+	*(int*)(shell_code + 16) = damage;
+	*(int*)(shell_code + 21) = code;
+	*(int*)(shell_code + 26) = pointer;
+	*(int*)(shell_code + 31) = __释放CALL;
+	function::remoteMainThreadCall(shell_code, sizeof(shell_code));
 }

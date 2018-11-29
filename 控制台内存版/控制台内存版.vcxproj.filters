@@ -42,7 +42,7 @@
     <ClInclude Include="status_3.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="functions.h">
+    <ClInclude Include="function.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,10 +74,10 @@
     <ClCompile Include="status_3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="functions.cpp">
+    <ClCompile Include="call.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="call.cpp">
+    <ClCompile Include="function.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

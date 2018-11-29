@@ -155,5 +155,10 @@
 #define VK_ID_END L"VK_ID_END"
 #define VK_ID_HOME L"VK_ID_HOME"
 
+
+#define MY_MESSAGE_ID 16524
+#define __CALLµØÖ· 0x0183002B
+#define __CALL²ÎÊý 0x400800
+
 #endif // !__CONSTS_H__
 
