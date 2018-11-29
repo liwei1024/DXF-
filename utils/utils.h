@@ -27,6 +27,7 @@ namespace utils
 	void outputDbebugWString(const wchar_t * lpcszFormat, ...);
 	void outputDbebugString(const char * lpcszFormat, ...);
 	void windowInitialize();
+	void remoteMainThreadCall(WPARAM callAddress);
 };
 #endif
 

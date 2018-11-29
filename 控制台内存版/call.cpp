@@ -33,6 +33,9 @@ CloseHandle(hRemoteThread);
 
 */
 
+#define __CALL地址 0x400500
+#define __参数地址 0x400800
+
 void call::技能Call(int pointer,int code,int damage,int x,int y,int z)
 {
 	int skill_struct[26] = {};
@@ -46,16 +49,17 @@ void call::技能Call(int pointer,int code,int damage,int x,int y,int z)
 	skill_struct[23] = 0;
 	skill_struct[24] = 65535;
 	skill_struct[25] = 65535;
-	
-	char shell_code[] = {
+
+	byte shell_code[] = {
 		0xb9,0x00,0x00,0x00,0x00,
 		0xb8,0x00,0x00,0x00,0x00,
 		0xff,0xd0,
 		0xc3
 	};
-	*(int*)(shell_code + 1) = (int)&skill_struct;
+	*(int*)(shell_code + 1) = __参数地址;
 	*(int*)(shell_code + 6) = __技能CALL;
-	rw2.writeVirtualMemory(0x400500, shell_code,sizeof(shell_code));
+	rw2.writeVirtualMemory(__CALL地址, shell_code, sizeof(shell_code));
+	rw2.writeVirtualMemory(__参数地址, skill_struct,sizeof(skill_struct));
 	//SendMessageW(hWnd,10024,0x400500,0);
 
 }

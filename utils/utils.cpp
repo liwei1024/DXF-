@@ -4,7 +4,14 @@
 #include <iostream>
 #include <tchar.h>
 #include <windows.h>
+
+#ifndef __MEMORY_H__
+#include "../memory/memory.h"
+#pragma comment(lib,"../x64/Release/library/memory.lib")
+#endif // !__MEMORY_H__
+
 #include "utils.h"
+
 
 HANDLE msdk_handle;
 WINDOW_INFO game_window_info;
@@ -96,4 +103,9 @@ void utils::windowInitialize()
 	EnableMenuItem(GetSystemMenu(g_self_window_handle, FALSE), SC_CLOSE, MF_GRAYED);
 	SetConsoleTitle(_T("ÿº"));
 	//SetLayeredWindowAttributes(g_self_window_handle, 0, 200, 3);//Õ∏√˜∂»…Ë÷√
+}
+
+void utils::remoteMainThreadCall(WPARAM callAddress)
+{
+	SendMessage(HWND_BROADCAST,10024, callAddress,0);
 }
