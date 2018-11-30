@@ -1,5 +1,11 @@
 #ifndef __MEMORY_H__
 #define __MEMORY_H__
+#include <windows.h>
+#include <string>
+#include <vector>
+#include <stdio.h>
+#include <tchar.h>
+
 
 #ifndef __RW2_h__
 #include "rw2.h"

@@ -4,13 +4,14 @@
 class RW2
 {
 private:
-	HANDLE hDriver;
+	HANDLE hDriver = NULL;
 public:
 	RW2();
 	~RW2();
 	DWORD dwProcessId;
 	DWORD dwProcessBaseAddress;
 	void Init();
+	void closeHandle();
 	DWORD getProcessId();
 	DWORD getProcessBaseAddress();
 	BOOL readVirtualMemory(ULONG Address, PVOID Response, SIZE_T Size);

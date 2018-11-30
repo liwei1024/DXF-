@@ -1,5 +1,11 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
+#include <ctime>
+#include <string>
+#include <iostream>
+#include <tchar.h>
+#include <windows.h>
+#include <vector>
 
 #define RED FOREGROUND_INTENSITY | FOREGROUND_RED
 #define CYAN FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE
@@ -27,6 +33,10 @@ namespace utils
 	void outputDbebugWString(const wchar_t * lpcszFormat, ...);
 	void outputDbebugString(const char * lpcszFormat, ...);
 	void windowInitialize();
+	std::string formatString(const char * lpcszFormat, ...);
+	std::wstring formatWstring(const wchar_t * lpcwszFormat, ...);
+	void vectorBytesToBytes(std::vector<byte> v_bytes, byte * bytes);
+	std::vector<byte> bytesToVectorBytes(byte * bytes, size_t size);
 };
 #endif
 

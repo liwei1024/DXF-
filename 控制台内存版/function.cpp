@@ -3,14 +3,19 @@
 
 
 
-void function::remoteMainThreadCall(byte * shell_code,size_t shell_code_size,PVOID param,size_t paramSize)
+void function::remoteMainThreadCall(byte * shell_code,size_t shell_code_size,LPVOID param,size_t paramSize)
 {
-	if (param > 0 && paramSize>0)
+	/*int paramAddress = rw2.dwProcessBaseAddress + 1000;
+	int callAddress = rw2.dwProcessBaseAddress + 1000 + (int)paramSize;*/
+	int paramAddress = __CALL参数 + 1000;
+	int callAddress = __CALL地址 + 1000 + (int)paramSize;
+	if (param > 0 && paramSize > 0)
 	{
-		rw2.writeVirtualMemory(__CALL参数, param, paramSize);
+		rw2.writeVirtualMemory(paramAddress, param, paramSize);
 	}
-	rw2.writeVirtualMemory(__CALL地址, shell_code, shell_code_size);
-	SendMessage(HWND_BROADCAST, MY_MESSAGE_ID, __CALL地址, 0);
+	rw2.writeVirtualMemory(callAddress, shell_code, shell_code_size);
+	utils::myprintf("paramAddress->:%x\ncallAddress->:%x", RED, paramAddress, callAddress);
+	SendMessage(HWND_BROADCAST, MY_MESSAGE_ID, callAddress, 0);
 }
 
 //解密

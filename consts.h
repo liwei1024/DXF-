@@ -155,8 +155,15 @@
 
 
 #define MY_MESSAGE_ID 16524
-#define __CALL地址 0x0183002B
-#define __CALL参数 0x400800
+#define __CALL地址 0x00010000
+#define __CALL参数 0x00011000
+
+
+#define 搬砖 1
+#define 剧情 2
+#define 深渊 3
+#define 黄龙 4
+#define 练习 5
 
 #endif // !__CONSTS_H__
 

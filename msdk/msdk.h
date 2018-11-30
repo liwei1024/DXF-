@@ -1,5 +1,12 @@
 #ifndef __MSDK_H__
 #define __MSDK_H__
+#include <windows.h>
+#include "stdio.h"
+#include <windows.h>
+#include <malloc.h>
+#include <string.h>
+#include <tchar.h>
+
 typedef HANDLE(WINAPI*M_OPEN_VIDPID)(int, int);
 typedef int (WINAPI*M_RELEASEALLKEY)(HANDLE);
 typedef int (WINAPI*M_KEYSTATE2)(HANDLE, int);
@@ -10,10 +17,11 @@ typedef int (WINAPI*M_MOVETO2)(HANDLE, int, int);
 typedef int (WINAPI*M_MOVETO3)(HANDLE, int, int);
 typedef int (WINAPI*M_GETCURMOUSEPOS2)(int*, int*);
 typedef int (WINAPI*M_CLOSE)(HANDLE);
+
 class Msdk
 {
 public:
-	HANDLE msdk_handle;
+	HANDLE msdk_handle = NULL;
 	Msdk();
 	~Msdk();
 	void openHandle();

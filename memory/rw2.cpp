@@ -1,10 +1,10 @@
 #include "rw2.h"
 
 RW2::RW2() {
-	Init();
+	
 }
 RW2::~RW2() {
-
+	closeHandle();
 }
 
 void RW2::Init()
@@ -25,6 +25,11 @@ void RW2::Init()
 	}
 	dwProcessId = getProcessId();
 	dwProcessBaseAddress = getProcessBaseAddress();
+}
+
+void RW2::closeHandle()
+{
+	CloseHandle(hDriver);
 }
 
 DWORD RW2::getProcessId()

@@ -1,8 +1,4 @@
-#include <windows.h>
-#include <string>
-#include <vector>
-#include <stdio.h>
-#include <tchar.h>
+
 
 #include "memory.h"
 
@@ -20,7 +16,7 @@ std::wstring memory::readWString(DWORD_PTR dwBaseAddress, SIZE_T Size)
 std::string memory::readString(DWORD_PTR dwBaseAddress, SIZE_T Size)
 {
 	char *buffer = new char[Size];
-	//rw2.readVirtualMemory((ULONG)dwBaseAddress, buffer, Size);
+	rw2.readVirtualMemory((ULONG)dwBaseAddress, buffer, Size);
 	std::string str(buffer, Size);
 	delete[]buffer;
 	return str;

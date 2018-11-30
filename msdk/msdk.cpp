@@ -1,10 +1,8 @@
-#include <windows.h>
+
+#ifndef __UTILS_H__
 #include "../utils/utils.h"
-#include "stdio.h"
-#include <windows.h>
-#include <malloc.h>
-#include <string.h>
-#include <tchar.h>
+#pragma comment(lib,"../x64/Release/library/utils.lib")
+#endif
 
 #ifndef __MEMORY_LOADER_H__
 #include "../memory_loader/memory_loader.h"
@@ -59,8 +57,6 @@ Msdk::Msdk() {
 	M_MoveTo3 = (M_MOVETO3)MemoryGetProcAddress(module, "M_MoveTo3");
 	M_GetCurrMousePos2 = (M_GETCURMOUSEPOS2)MemoryGetProcAddress(module, "M_GetCurrMousePos2");
 	M_Close = (M_CLOSE)MemoryGetProcAddress(module, "M_Close");
-
-	openHandle();
 }
 Msdk::~Msdk() {
 

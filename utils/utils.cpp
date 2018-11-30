@@ -1,9 +1,4 @@
-#include <ctime>
-#include <string>
-#include <vector>
-#include <iostream>
-#include <tchar.h>
-#include <windows.h>
+
 
 #ifndef __MEMORY_H__
 #include "../memory/memory.h"
@@ -101,7 +96,61 @@ void utils::windowInitialize()
 	MoveWindow(g_self_window_handle, cx - width, cy - height, width, height, TRUE);
 
 	EnableMenuItem(GetSystemMenu(g_self_window_handle, FALSE), SC_CLOSE, MF_GRAYED);
-	SetConsoleTitle(_T("丶"));
+	SetConsoleTitle(_T("x64"));
 	//SetLayeredWindowAttributes(g_self_window_handle, 0, 200, 3);//透明度设置
 }
 
+std::string utils::formatString(const char *lpcszFormat, ...)
+{
+	char *pszStr = NULL;
+	if (NULL != lpcszFormat)
+	{
+		va_list marker = NULL;
+		va_start(marker, lpcszFormat); //初始化变量参数
+		size_t nLength = _vscprintf(lpcszFormat, marker) + 1; //获取格式化字符串长度
+		pszStr = new char[nLength];
+		memset(pszStr, '\0', nLength);
+		_vsnprintf_s(pszStr, nLength, nLength, lpcszFormat, marker);
+		va_end(marker); //重置变量参数
+	}
+	std::string strResult(pszStr);
+	delete[]pszStr;
+	return strResult;
+}
+
+std::wstring utils::formatWstring(const wchar_t *lpcwszFormat, ...)
+{
+	wchar_t *pszStr = NULL;
+	if (NULL != lpcwszFormat)
+	{
+		va_list marker = NULL;
+		va_start(marker, lpcwszFormat); //初始化变量参数
+		size_t nLength = _vscwprintf(lpcwszFormat, marker) + 1; //获取格式化字符串长度
+		pszStr = new wchar_t[nLength];
+		memset(pszStr, L'\0', nLength);
+		_vsnwprintf_s(pszStr, nLength, nLength, lpcwszFormat, marker);
+		va_end(marker); //重置变量参数
+	}
+	std::wstring strResult(pszStr);
+	delete[]pszStr;
+	return strResult;
+}
+
+void utils::vectorBytesToBytes(std::vector<byte> v_bytes,byte* bytes)
+{
+	for (size_t i = 0; i < v_bytes.size(); i++)
+	{
+		bytes[i] = v_bytes[i];
+	}
+}
+
+std::vector<byte>  utils::bytesToVectorBytes(byte* bytes,size_t size)
+{
+	std::vector<byte> v_bytes;
+	v_bytes.resize(size);
+	for (size_t i = 0; i < size; i++)
+	{
+		v_bytes[i] = bytes[i];
+	}
+	return v_bytes;
+}
