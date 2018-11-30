@@ -29,7 +29,14 @@ void RW2::Init()
 
 void RW2::closeHandle()
 {
-	CloseHandle(hDriver);
+	if (hDriver != NULL)
+	{
+		CloseHandle(hDriver);
+		hDriver = NULL;
+		dwProcessId = 0;
+		dwProcessBaseAddress = 0;
+	}
+	
 }
 
 DWORD RW2::getProcessId()

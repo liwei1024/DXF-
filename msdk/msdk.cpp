@@ -72,7 +72,12 @@ void Msdk::openHandle()
 
 void Msdk::closeHandle()
 {
-	M_Close(msdk_handle);
+	if (msdk_handle != NULL)
+	{
+		M_Close(msdk_handle);
+		msdk_handle = NULL;
+	}
+	
 }
 
 void Msdk::upAllKey()
