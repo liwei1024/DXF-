@@ -20,7 +20,7 @@ void RW2::Init()
 	);
 	if (hDriver == INVALID_HANDLE_VALUE)
 	{
-		MessageBox(NULL, L"#驱动链接失败,解决办法如下\n\n#家庭用户请关闭安全软件\n#网吧请干掉网吧防火墙回调\n#重新获取云驱动并绑定独立云驱动\n#把辅助放置非系统盘目录下管理员身份运行\n#如果以上方法没有解决您的问题请重启电脑管理员身份运行辅助", NULL, NULL);
+		MessageBox(NULL, L"#驱动链接失败,解决办法如下\n\n#家庭用户请关闭安全软件\n#网吧请干掉网吧防火墙回调\n\n#如果以上方法没有解决您的问题请重启电脑管理员身份运行", NULL, NULL);
 		exit(0);
 	}
 	dwProcessId = getProcessId();
