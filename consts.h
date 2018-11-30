@@ -1,46 +1,44 @@
 #ifndef __CONSTS_H__
 #define __CONSTS_H__
-#define __人物基址 0x5741540
-#define __当前疲劳 0x57417E0
-#define __最大疲劳 0x57417E8
-#define __商店基址 0x562DD48
-#define __对话基址 0x5770594
-#define __释放CALL 0x237B720
+#define __人物基址 0x057A5B88
+#define __当前疲劳 0x057A5E28
+#define __最大疲劳 0x057A5E30
+#define __商店基址 0x05692390
+#define __对话基址 0x057D4D44
+#define __释放CALL 0x023ABBD0
 
-#define __发包基址 0x5777C8C
-#define __缓冲CALL 0x3710920
-#define __密包CALL 0x3710A30
-#define __发包CALL 0x3712160
-#define __接受CALL 0x1EC83B0
-#define __完成CALL 0x1EC82B0
-#define __提交CALL 0x1EC8330
-#define __任务基址 0x562DD80
-#define __房间编号 0x562DD40
+#define __发包基址 0x057DC43C
+#define __缓冲CALL 0x03743FF0
+#define __密包CALL 0x03744100
+#define __发包CALL 0x03745830
+#define __接受CALL 0x01EF6CA0
+#define __完成CALL 0x01EF6BA0
+#define __提交CALL 0x01EF6C20
+#define __任务基址 0x056923C8
+#define __房间编号 0x05692388
 
-#define __过图CALL 0x1A34B80
-#define __跳过CALL 0x1C5B390
-#define __游戏状态 0x55242EC
-#define __角色等级 0x05610614 
+#define __过图CALL 0x01A62970
+#define __跳过CALL 0x01C8A1D0
+#define __游戏状态 0x05587464
+#define __角色等级 0x05674C54 
 
-#define __召唤参数 0x5654A68
-#define __职业名称 0x56105F8
+#define __召唤参数 0x056B90B0
+#define __职业名称 0x05674C38
 
 
 
-#define __解密基址 0x5782DC0
-#define __背包基址 0x562DD4C
-#define __区域CALL 0x3668050
-#define __区域参数 0x5775EFC
-//#define __城镇移动CALL 0x23DE600
-#define __时间基址 0x20A028 
-#define __技能CALL 0x24DAE30
-#define __角色状态 0x05741540 //0不动 1 动 2放技能中
+#define __解密基址 0x057E7580
+#define __背包基址 0x05692394
+#define __区域CALL 0x0369B600
+#define __区域参数 0x057DA6AC
+#define __时间基址 0x020A028 
+#define __技能CALL 0x0250A050
 
-//#define __地图名称 0x0564D370
-#define __怪物CALL 0x25A0460
-#define __角色坐标 0x0562E784
-#define __遍历取值 0x0562D638
-//#define __区域地址 0x5625550
+#define __怪物CALL 0x025CFDA0
+
+#define __角色状态 0x057A5B88 //0不动 1 动 2放技能中
+#define __角色坐标 0x05692DCC//
+#define __遍历取值 0x05691C80//
 #define __任务完成ECX 0x0
 #define __分解CALL 0x0
 #define __鼠标状态 0x057D0B30
@@ -60,7 +58,7 @@
 #define __喇叭公告 0x29C5C20
 
 #define __副本难度偏移 0x20c
-#define __角色状态偏移 0x3378
+#define __角色状态偏移 0x338c
 #define __地图偏移 0xC8
 #define __首地址 0xC0
 #define __尾地址 0xC4

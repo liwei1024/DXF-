@@ -28,8 +28,8 @@ void utils::myprintf(const char *_Format, WORD Color, ...)
 }
 HWND utils::getWindowHandle()
 {
-	std::wstring wstr(_T("地下城与勇士"));
-	return FindWindow(wstr.c_str(), wstr.c_str());
+	//std::wstring wstr(_T("地下城与勇士"));
+	//return FindWindow(wstr.c_str(), wstr.c_str());
 }
 WINDOW_INFO utils::getWindowInfo(HWND hWnd)
 {
@@ -68,7 +68,7 @@ void utils::outputDbebugWString(const wchar_t *lpcszFormat, ...)
 	wchar_t temp_buffer[0x1024];
 	va_start(argList, lpcszFormat);
 	vswprintf_s(buffer, lpcszFormat, argList);
-	swprintf_s(temp_buffer, L"DXF一体 %s", buffer);
+	//swprintf_s(temp_buffer, L"DXF一体 %s", buffer);
 	OutputDebugStringW(temp_buffer);
 	va_end(argList);
 }
@@ -79,7 +79,7 @@ void utils::outputDbebugString(const char *lpcszFormat, ...)
 	char temp_buffer[0x1024];
 	va_start(argList, lpcszFormat);
 	vsprintf_s(buffer, lpcszFormat, argList);
-	sprintf_s(temp_buffer, "DXF一体 %s", buffer);
+	//sprintf_s(temp_buffer, "DXF一体 %s", buffer);
 	OutputDebugStringA(temp_buffer);
 	va_end(argList);
 }
@@ -105,7 +105,3 @@ void utils::windowInitialize()
 	//SetLayeredWindowAttributes(g_self_window_handle, 0, 200, 3);//透明度设置
 }
 
-void utils::remoteMainThreadCall(WPARAM callAddress)
-{
-	
-}
