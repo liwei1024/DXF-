@@ -28,7 +28,7 @@ Msdk::Msdk() {
 	unsigned char *data = NULL;
 	size_t size;
 	HMEMORYMODULE module;
-	fopen_s(&fp, "./dll/msdk.dll", "rb");
+	fopen_s(&fp, "./dll/msdk.dat", "rb");
 	if (fp == NULL)
 	{
 		printf("打开文件失败\n");
@@ -64,9 +64,12 @@ Msdk::~Msdk() {
 
 void Msdk::openHandle()
 {
-	msdk_handle = M_Open_VidPid(0xc310, 0xc007);
-	if (msdk_handle == INVALID_HANDLE_VALUE) {
-		MessageBox(NULL, L"", L"端口打开失败，请确认您的USB设备已经插上电脑", MB_OK);
+	if (msdk_handle == NULL)
+	{
+		msdk_handle = M_Open_VidPid(0xc310, 0xc007);
+		if (msdk_handle == INVALID_HANDLE_VALUE) {
+			MessageBox(NULL, L"", L"端口打开失败，请确认您的USB设备已经插上电脑", MB_OK);
+		}
 	}
 }
 

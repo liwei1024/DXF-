@@ -9,7 +9,6 @@
 
 
 HANDLE msdk_handle;
-WINDOW_INFO game_window_info;
 
 void utils::myprintf(const char *_Format, WORD Color, ...)
 {

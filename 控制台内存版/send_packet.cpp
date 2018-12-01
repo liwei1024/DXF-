@@ -96,7 +96,7 @@ void SendPacket::选择角色(int role_index)
 	发包Call();
 }
 
-void SendPacket::城镇瞬移(int max_map_id, int min_map_id, int x, int y, int goods_index)
+void SendPacket::城镇瞬移(CITY_INFO cityInfo, int goods_index)
 {
 	if (goods_index > 0)
 	{
@@ -104,18 +104,18 @@ void SendPacket::城镇瞬移(int max_map_id, int min_map_id, int x, int y, int good
 		密包Call(goods_index, 2);
 		密包Call(2600014, 3);
 		密包Call(0, 1);
-		密包Call(max_map_id, 1);
-		密包Call(min_map_id, 1);
-		密包Call(x, 2);
-		密包Call(y, 2);
+		密包Call(cityInfo.room.x, 1);
+		密包Call(cityInfo.room.y, 1);
+		密包Call(cityInfo.x, 2);
+		密包Call(cityInfo.y, 2);
 		发包Call();
 	}
 	else {
 		缓冲Call(36);
-		密包Call(max_map_id, 1);
-		密包Call(min_map_id, 1);
-		密包Call(x, 2);
-		密包Call(y, 2);
+		密包Call(cityInfo.room.x, 1);
+		密包Call(cityInfo.room.y, 1);
+		密包Call(cityInfo.x, 2);
+		密包Call(cityInfo.y, 2);
 		密包Call(5, 1);
 		密包Call(38, 2);
 		密包Call(1, 2);

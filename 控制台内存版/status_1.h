@@ -1,8 +1,9 @@
 #pragma once
-class status_1
+namespace status_1
 {
-public:
-	status_1();
-	~status_1();
+	void manage();
+	CITY_INFO getCityInfo();
+	void moveToCopyDoor(int copy_id);
+	void enterCopy();
 };
 

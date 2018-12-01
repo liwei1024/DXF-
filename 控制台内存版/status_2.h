@@ -1,8 +1,7 @@
 #pragma once
-class status_2
+namespace status_2
 {
-public:
-	status_2();
-	~status_2();
+	void manage();
+	void selectCopy(int copy_id, int copy_rand);
 };
 

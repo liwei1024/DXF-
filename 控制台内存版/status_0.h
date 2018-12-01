@@ -1,8 +1,10 @@
 #pragma once
-class status_0
+namespace status_0
 {
-public:
-	status_0();
-	~status_0();
+	void manage();
+	int getRoleIndox();
+	int getRoleCount();
+	int getRoleMaxCount();
+	void selectRole(int select_role_index);
 };
 

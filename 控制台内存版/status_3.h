@@ -1,8 +1,24 @@
 #pragma once
-class status_3
+
+struct MAP_OBJECT_STRUCT
 {
-public:
-	status_3();
-	~status_3();
+	DWORD address;
+	std::wstring name;
+	DWORD type;
+	DWORD camp;
+	DWORD health_point;
+	DWORD code;
+	int x;
+	int y;
+	int z;
+};
+
+namespace status_3
+{
+	DWORD getMapAddress();
+	DWORD getMapStartAddress();
+	int getMapObjectCount(DWORD map_start_address);
+	MAP_OBJECT_STRUCT get_object_info(DWORD object_pointer);
+	void outputMapObjectInfo();
 };
 
