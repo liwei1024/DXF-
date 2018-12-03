@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{6E2A77
 		consts.h = consts.h
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rw2tesat", "rw2tesat\rw2tesat.vcxproj", "{428532BA-5631-42CB-9810-1BD222186752}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -167,6 +169,18 @@ Global
 		{75A7A641-E8CC-46A9-A318-5D3805B5E45D}.Release|x64.Build.0 = Release|x64
 		{75A7A641-E8CC-46A9-A318-5D3805B5E45D}.Release|x86.ActiveCfg = Release|Win32
 		{75A7A641-E8CC-46A9-A318-5D3805B5E45D}.Release|x86.Build.0 = Release|Win32
+		{428532BA-5631-42CB-9810-1BD222186752}.Debug|ARM.ActiveCfg = Debug|Win32
+		{428532BA-5631-42CB-9810-1BD222186752}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{428532BA-5631-42CB-9810-1BD222186752}.Debug|x64.ActiveCfg = Debug|x64
+		{428532BA-5631-42CB-9810-1BD222186752}.Debug|x64.Build.0 = Debug|x64
+		{428532BA-5631-42CB-9810-1BD222186752}.Debug|x86.ActiveCfg = Debug|Win32
+		{428532BA-5631-42CB-9810-1BD222186752}.Debug|x86.Build.0 = Debug|Win32
+		{428532BA-5631-42CB-9810-1BD222186752}.Release|ARM.ActiveCfg = Release|Win32
+		{428532BA-5631-42CB-9810-1BD222186752}.Release|ARM64.ActiveCfg = Release|Win32
+		{428532BA-5631-42CB-9810-1BD222186752}.Release|x64.ActiveCfg = Release|x64
+		{428532BA-5631-42CB-9810-1BD222186752}.Release|x64.Build.0 = Release|x64
+		{428532BA-5631-42CB-9810-1BD222186752}.Release|x86.ActiveCfg = Release|Win32
+		{428532BA-5631-42CB-9810-1BD222186752}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
