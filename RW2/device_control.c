@@ -60,5 +60,5 @@ NTSTATUS DispatchDeviceControl(
 	}
 	Irp->IoStatus.Status = Status;
 	IoCompleteRequest(Irp, IO_NO_INCREMENT);
-	return STATUS_SUCCESS;
+	return Status;
 }
