@@ -18,6 +18,7 @@ int function::decrypt(int address)
 	esi = esi ^ i;
 	return esi;
 }
+
 //º”√‹
 void function::encrypt(INT32 Address, INT32 Value)
 {
