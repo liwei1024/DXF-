@@ -77,6 +77,6 @@ void status_3::outputMapObjectInfo()
 		utils::myprintf("camp %d", RED, _ObjectInfo.camp);
 		utils::myprintf("health_point %d", RED, _ObjectInfo.health_point);
 		utils::myprintf("pos %d,%d,%d", RED, _ObjectInfo.x, _ObjectInfo.y, _ObjectInfo.z);
-		utils::myprintf("name %s", RED, _ObjectInfo.name.c_str());
+		utils::printWString(L"name %s", RED, _ObjectInfo.name.c_str());
 	}
 }

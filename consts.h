@@ -68,7 +68,7 @@
 
 #define __阵营偏移 0x828
 #define __类型偏移 0xA4
-#define __血量偏移 0x3AE4
+#define __血量偏移 0x3B04
 #define __坐标偏移 0xb8
 #define __人物坐标偏移 0x1D0
 
