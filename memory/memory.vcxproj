@@ -155,10 +155,12 @@
   <ItemGroup>
     <ClInclude Include="memory.h" />
     <ClInclude Include="rw2.h" />
+    <ClInclude Include="rw4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="rw2.cpp" />
+    <ClCompile Include="rw4.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

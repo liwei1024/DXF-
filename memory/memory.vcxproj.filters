@@ -21,12 +21,18 @@
     <ClInclude Include="rw2.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="rw4.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="memory.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="rw2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="rw4.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,10 +7,10 @@
 #include <tchar.h>
 
 
-#ifndef __RW2_h__
-#include "rw2.h"
+#ifndef __RW4_h__
+#include "rw4.h"
 #endif
-extern RW2 rw2;
+extern RW4 rw4;
 
 namespace memory
 {
@@ -18,14 +18,14 @@ namespace memory
 	static T read(DWORD_PTR dwBaseAddress)
 	{
 		T Value;
-		rw2.readVirtualMemory((ULONG)dwBaseAddress, &Value, sizeof(T));
+		rw4.readVirtualMemory((ULONG)dwBaseAddress, &Value, sizeof(T));
 		return Value;
 	}
 
 	template<typename T>
 	static BOOL write(DWORD_PTR dwBaseAddress, T Value)
 	{
-		return rw2.writeVirtualMemory((ULONG)dwBaseAddress, &Value, sizeof(T));
+		return rw4.writeVirtualMemory((ULONG)dwBaseAddress, &Value, sizeof(T));
 	}
 
 	template <typename T>

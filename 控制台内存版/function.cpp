@@ -5,15 +5,15 @@
 
 void function::remoteMainThreadCall(byte * shell_code,size_t shell_code_size,LPVOID param,size_t paramSize)
 {
-	/*int paramAddress = rw2.dwProcessBaseAddress + 1000;
-	int callAddress = rw2.dwProcessBaseAddress + 1000 + (int)paramSize;*/
+	/*int paramAddress = rw4.dwProcessBaseAddress + 1000;
+	int callAddress = rw4.dwProcessBaseAddress + 1000 + (int)paramSize;*/
 	int paramAddress = __CALL²ÎÊý + 1000;
 	int callAddress = __CALLµØÖ· + 1000 + (int)paramSize;
 	if (param > 0 && paramSize > 0)
 	{
-		rw2.writeVirtualMemory(paramAddress, param, paramSize);
+		rw4.writeVirtualMemory(paramAddress, param, paramSize);
 	}
-	rw2.writeVirtualMemory(callAddress, shell_code, shell_code_size);
+	rw4.writeVirtualMemory(callAddress, shell_code, shell_code_size);
 	utils::myprintf("paramAddress->:%x\ncallAddress->:%x", RED, paramAddress, callAddress);
 	SendMessage(HWND_BROADCAST, MY_MESSAGE_ID, callAddress, 0);
 }
