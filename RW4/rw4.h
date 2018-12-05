@@ -15,7 +15,7 @@ extern PVOID TargetProcessBaseAddress;
 NTSTATUS NTAPI MmCopyVirtualMemory
 (
 	PEPROCESS SourceProcess,
-	PVOID SourceAddress,
+	CONST VOID * SourceAddress,
 	PEPROCESS TargetProcess,
 	PVOID TargetAddress,
 	SIZE_T BufferSize,
@@ -33,4 +33,12 @@ NTSTATUS ReadVirtualMemory(
 NTSTATUS WriteVirtualMemory(
 	PWRITE_VIRTUAL_MEMORY_STRUCT wvms
 );
+
+#ifdef ALLOC_PRAGMA
+#pragma alloc_text(PAGE,MmCopyVirtualMemory)
+#pragma alloc_text(PAGE,DispatchDeviceControl)
+#pragma alloc_text(PAGE,ReadVirtualMemory)
+#pragma alloc_text(PAGE,WriteVirtualMemory)
+#endif
+
 #endif // !1

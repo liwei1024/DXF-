@@ -5,7 +5,7 @@
 void status_0::manage()
 {
 	if (getRoleCount() == getRoleIndox()) {
-		utils::printString("所有角色刷图完毕，自动关闭");
+		//utils::printString("所有角色刷图完毕，自动关闭");
 		autoSwitch = false;
 	}
 	else {
