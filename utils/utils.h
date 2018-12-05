@@ -26,6 +26,7 @@ typedef struct _WINDOW_INFO
 namespace utils
 {
 	void myprintf(const char * _Format, WORD Color = CYAN, ...);
+	void mywprintf(const wchar_t * _Format, WORD Color, ...);
 	void printString(const char * _Format, WORD Color = CYAN, ...);
 	void printWString(const wchar_t * _Format, WORD Color, ...);
 	HWND getWindowHandle();

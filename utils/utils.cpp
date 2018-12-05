@@ -17,10 +17,22 @@ void utils::myprintf(const char *_Format, WORD Color, ...)
 	char buffer[0x1024];
 	va_start(argList, Color);
 	vsprintf_s(buffer, _Format, argList);
+	std::locale loc("chs");
 	std::cout << buffer << std::endl;
 	va_end(argList);
 }
-void utils::printString(const char * _Format, WORD Color = CYAN, ...)
+void utils::mywprintf(const wchar_t * _Format, WORD Color, ...)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color);
+	va_list argList;
+	wchar_t buffer[0x1024];
+	va_start(argList, Color);
+	vswprintf_s(buffer, _Format, argList);
+	std::locale loc("chs");
+	std::wcout << buffer << std::endl;
+	va_end(argList);
+}
+void utils::printString(const char * _Format, WORD Color, ...)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color);
 	va_list argList;
@@ -31,7 +43,7 @@ void utils::printString(const char * _Format, WORD Color = CYAN, ...)
 	std::cout << buffer << std::endl;
 	va_end(argList);
 }
-void utils::printWString(const wchar_t * _Format, WORD Color = CYAN, ...)
+void utils::printWString(const wchar_t * _Format, WORD Color, ...)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color);
 	va_list argList;
