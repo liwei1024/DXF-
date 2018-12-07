@@ -3,7 +3,7 @@
 typedef struct _REPROTECT_CONTEXT
 {
 	PMDL   Mdl;
-	PUCHAR LockedVa;
+	PVOID LockedVa;
 } REPROTECT_CONTEXT, *PREPROTECT_CONTEXT;
 
 NTSTATUS
@@ -50,7 +50,7 @@ MmLockVaForWrite(
 		return GetExceptionCode();
 	}
 
-	ReprotectContext->LockedVa = (PUCHAR)MmMapLockedPagesSpecifyCache(
+	ReprotectContext->LockedVa = MmMapLockedPagesSpecifyCache(
 		ReprotectContext->Mdl,
 		KernelMode,
 		MmCached,
@@ -156,31 +156,7 @@ NTSTATUS WriteVirtualMemory(
 	Status = PsLookupProcessByProcessId(TargetProcessId, &TargetProcess);
 	if (NT_SUCCESS(Status))
 	{
-		/*PMDL pMdl = NULL;
-		PVOID pSafeAddress = NULL;
-		if (!MmIsAddressValid((PVOID)wvms->Address) || !MmIsAddressValid((PVOID)wvms->Address))
-			return Status;
-		pMdl = IoAllocateMdl((PVOID)wvms->Address, (ULONG)wvms->Size, FALSE, FALSE, NULL);
-		if (!pMdl)
-			return Status;
-		__try
-		{
-			MmProbeAndLockPages(pMdl, KernelMode, IoReadAccess);
-		}
-		__except (EXCEPTION_EXECUTE_HANDLER)
-		{
-			IoFreeMdl(pMdl);
-			return Status;
-		}
-		pSafeAddress = MmGetSystemAddressForMdlSafe(pMdl, NormalPagePriority);
-		if (!pSafeAddress)
-			return Status;*/
-		REPROTECT_CONTEXT ReprotectContext;
-		MmLockVaForWrite((PVOID)wvms->Address, (ULONG)wvms->Size,&ReprotectContext);
-		Status = MmCopyVirtualMemory(PsGetCurrentProcess(), wvms->Value, TargetProcess, (PVOID)ReprotectContext.LockedVa, wvms->Size, KernelMode, &Bytes);
-		/*MmUnlockPages(pMdl);
-		IoFreeMdl(pMdl);*/
-		MmUnlockVaForWrite(&ReprotectContext);
+		Status = MmCopyVirtualMemory(PsGetCurrentProcess(), wvms->Value, TargetProcess, ReprotectContext.LockedVa, wvms->Size, KernelMode, &Bytes);
 		ObDereferenceObject(TargetProcess);
 	}
 	return Status;
