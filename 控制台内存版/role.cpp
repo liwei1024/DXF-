@@ -48,13 +48,14 @@ void role::moveRoleToPos(ROLE_POS targetPos)
 	int gameStatus = function::getGameStatus();
 	utils::myprintf("gameStatus->%d",GREEN, gameStatus);
 	// 卡点列表
-	std::vector<const char*> cardPointList;
+	//std::map<const char*,bool> cardPointList;
 	// 位置变量
-	ROLE_POS currentPos,cardPointPos;
+	ROLE_POS currentPos,cardPointPos = getRolePos();
 	utils::myprintf("目标位置 房间x->:%d,房间y->:%d | x->:%d,y->:%d", RED, targetPos.room.x, targetPos.room.y, targetPos.x, targetPos.y);
 	while (true)
 	{
 		currentPos = getRolePos();
+		t1 = utils::getTime();
 		utils::myprintf("当前位置 房间x->:%d,房间y->:%d | x->:%d,y->:%d",YELLOW, currentPos.room.x, currentPos.room.y, currentPos.x, currentPos.y);
 		if (
 			currentPos.room.x != targetPos.room.x ||
@@ -136,6 +137,43 @@ void role::moveRoleToPos(ROLE_POS targetPos)
 				msdk.keyUp(VK_NUMPAD3);
 			}
 			utils::myprintf("keyUp 左右");
+		}
+
+		// 卡点处理
+		if ((t1 - t2) > 3)
+		{
+			t2 = utils::getTime();
+			if (
+				abs(currentPos.x - cardPointPos.x) < 3 && 
+				abs(currentPos.y - cardPointPos.y) < 3
+				)
+			{
+
+				if (msdk.getKeyState(VK_NUMPAD1) == 1)
+				{
+					msdk.keyUp(VK_NUMPAD1);
+					msdk.doKeyPress(VK_NUMPAD3, 500);
+				}
+
+				if (msdk.getKeyState(VK_NUMPAD2) == 1)
+				{
+					msdk.keyUp(VK_NUMPAD2);
+					msdk.doKeyPress(VK_NUMPAD5, 500);
+				}
+
+				if (msdk.getKeyState(VK_NUMPAD3) == 1)
+				{
+					msdk.keyUp(VK_NUMPAD3);
+					msdk.doKeyPress(VK_NUMPAD1, 500);
+				}
+
+				if (msdk.getKeyState(VK_NUMPAD5) == 1)
+				{
+					msdk.keyUp(VK_NUMPAD5);
+					msdk.doKeyPress(VK_NUMPAD2, 500);
+				}
+			}
+			cardPointPos = getRolePos();
 		}
 	}
 }
