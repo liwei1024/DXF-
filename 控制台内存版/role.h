@@ -6,6 +6,6 @@ namespace role {
 	int getCurrentRoleFatigueValue();
 	ROLE_POS getRolePos();
 	int getRoleStatus();
-	void releaseSkillByKey(int keyCode, int s);
+	void releaseSkillByKey(int keyCode, int s); 
 }
 
