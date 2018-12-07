@@ -27,6 +27,7 @@ public:
 	void openHandle();
 	void closeHandle();
 	void upAllKey();
+	int getKeyState(int keyCode);
 	void keyDown(int keyCode);
 	void keyUp(int keyCode);
 	void doKeyPress(int keyCode, int s = 100);

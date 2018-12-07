@@ -70,13 +70,13 @@ void status_3::outputMapObjectInfo()
 		object_address = memory::read<int>(map_start_address + i * 4);
 		if (object_address <= 0)continue;
 		_ObjectInfo = get_object_info(object_address);
-		utils::myprintf("=====================================");
 		utils::myprintf("address 0x%x", RED, _ObjectInfo.address);
 		utils::myprintf("code %d", RED, _ObjectInfo.code);
 		utils::myprintf("type %d", RED, _ObjectInfo.type);
 		utils::myprintf("camp %d", RED, _ObjectInfo.camp);
 		utils::myprintf("health_point %d", RED, _ObjectInfo.health_point);
 		utils::myprintf("pos %d,%d,%d", RED, _ObjectInfo.x, _ObjectInfo.y, _ObjectInfo.z);
-		utils::printWString(L"name %s", RED, _ObjectInfo.name.c_str());
+		utils::mywprintf(L"name %s", RED, _ObjectInfo.name.c_str());
+		utils::myprintf("=====================================");
 	}
 }

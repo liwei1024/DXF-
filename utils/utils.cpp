@@ -28,8 +28,8 @@ void utils::mywprintf(const wchar_t * _Format, WORD Color, ...)
 	wchar_t buffer[0x1024];
 	va_start(argList, Color);
 	vswprintf_s(buffer, _Format, argList);
-	std::locale loc("chs");
-	std::wcout << buffer << std::endl;
+	setlocale(LC_CTYPE, "");
+	wprintf(L"name %s\n", buffer);
 	va_end(argList);
 }
 void utils::printString(const char * _Format, WORD Color, ...)
@@ -50,8 +50,8 @@ void utils::printWString(const wchar_t * _Format, WORD Color, ...)
 	wchar_t buffer[0x1024];
 	va_start(argList, Color);
 	vswprintf_s(buffer, _Format, argList);
-	std::locale loc("chs");
-	std::wcout << buffer << std::endl;
+	setlocale(LC_CTYPE, "");
+	wprintf(L"name %s\n", buffer);
 	va_end(argList);
 }
 HWND utils::getWindowHandle()
@@ -186,4 +186,12 @@ std::vector<byte>  utils::bytesToVectorBytes(byte* bytes,size_t size)
 		v_bytes[i] = bytes[i];
 	}
 	return v_bytes;
+}
+
+// 获取时间戳
+DWORD utils::getTime()
+{
+	DWORD t_start;
+	t_start = GetTickCount();//从操作系统启动所经过（elapsed）的毫秒数，它的返回值是DWORD。
+	return  t_start;
 }

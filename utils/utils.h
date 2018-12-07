@@ -26,9 +26,9 @@ typedef struct _WINDOW_INFO
 namespace utils
 {
 	void myprintf(const char * _Format, WORD Color = CYAN, ...);
-	void mywprintf(const wchar_t * _Format, WORD Color, ...);
+	void mywprintf(const wchar_t * _Format, WORD Color = CYAN, ...);
 	void printString(const char * _Format, WORD Color = CYAN, ...);
-	void printWString(const wchar_t * _Format, WORD Color, ...);
+	void printWString(const wchar_t * _Format, WORD Color = CYAN, ...);
 	HWND getWindowHandle();
 	WINDOW_INFO getWindowInfo(HWND hWnd);
 	int createRandom(int min, int max);
@@ -40,6 +40,7 @@ namespace utils
 	std::wstring formatWstring(const wchar_t * lpcwszFormat, ...);
 	void vectorBytesToBytes(std::vector<byte> v_bytes, byte * bytes);
 	std::vector<byte> bytesToVectorBytes(byte * bytes, size_t size);
+	DWORD getTime();
 };
 #endif
 
