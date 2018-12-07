@@ -62,6 +62,8 @@ Msdk::~Msdk() {
 
 }
 
+
+
 void Msdk::openHandle()
 {
 	if (msdk_handle == NULL)
@@ -87,20 +89,28 @@ void Msdk::upAllKey()
 {
 	M_ReleaseAllKey(msdk_handle);
 }
+
+int Msdk::getKeyState(int keyCode)
+{
+	int keyState = M_KeyState2(msdk_handle, keyCode);
+	printf("keyState->:%d\n", keyState);
+	return keyState;
+}
+	
 void Msdk::keyDown(int keyCode)
 {
-	if (M_KeyState2(msdk_handle, keyCode) == 0)
-	{
+	/*if (M_KeyState2(msdk_handle, keyCode) == 0)
+	{*/
 		M_KeyDown2(msdk_handle, keyCode);
-	}
+	//}
 
 }
 void Msdk::keyUp(int keyCode)
 {
-	if (M_KeyState2(msdk_handle, keyCode) == 1)
-	{
+	/*if (M_KeyState2(msdk_handle, keyCode) == 1)
+	{*/
 		M_KeyUp2(msdk_handle, keyCode);
-	}
+	//}
 }
 void Msdk::doKeyPress(int keyCode, int s)
 {
