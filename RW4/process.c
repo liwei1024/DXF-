@@ -1,4 +1,134 @@
 #include "rw4.h"
+
+typedef struct _REPROTECT_CONTEXT
+{
+	PMDL   Mdl;
+	PUCHAR LockedVa;
+} REPROTECT_CONTEXT, *PREPROTECT_CONTEXT;
+
+NTSTATUS
+MmLockVaForWrite(
+	__in PVOID Va,
+	__in ULONG Length,
+	__out PREPROTECT_CONTEXT ReprotectContext
+)
+{
+	NTSTATUS Status;
+
+	Status = STATUS_SUCCESS;
+
+	ReprotectContext->Mdl = 0;
+	ReprotectContext->LockedVa = 0;
+
+	ReprotectContext->Mdl = IoAllocateMdl(
+		Va,
+		Length,
+		FALSE,
+		FALSE,
+		0
+	);
+
+	if (!ReprotectContext->Mdl)
+	{
+		return STATUS_INSUFFICIENT_RESOURCES;
+	}
+
+	//
+	// Retrieve a locked VA mapping.
+	//
+
+	__try
+	{
+		MmProbeAndLockPages(
+			ReprotectContext->Mdl,
+			KernelMode,
+			IoModifyAccess
+		);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		return GetExceptionCode();
+	}
+
+	ReprotectContext->LockedVa = (PUCHAR)MmMapLockedPagesSpecifyCache(
+		ReprotectContext->Mdl,
+		KernelMode,
+		MmCached,
+		0,
+		FALSE,
+		NormalPagePriority
+	);
+
+	if (!ReprotectContext->LockedVa)
+	{
+
+
+		IoFreeMdl(
+			ReprotectContext->Mdl
+		);
+
+		ReprotectContext->Mdl = 0;
+
+		return STATUS_ACCESS_VIOLATION;
+	}
+
+	//
+	// Reprotect.
+	//
+
+	Status = MmProtectMdlSystemAddress(
+		ReprotectContext->Mdl,
+		PAGE_EXECUTE_READWRITE
+	);
+
+	if (!NT_SUCCESS(Status))
+	{
+
+
+		MmUnmapLockedPages(
+			ReprotectContext->LockedVa,
+			ReprotectContext->Mdl
+		);
+		MmUnlockPages(
+			ReprotectContext->Mdl
+		);
+		IoFreeMdl(
+			ReprotectContext->Mdl
+		);
+
+		ReprotectContext->LockedVa = 0;
+		ReprotectContext->Mdl = 0;
+	}
+
+	return Status;
+}
+
+NTSTATUS
+MmUnlockVaForWrite(
+	__in PREPROTECT_CONTEXT ReprotectContext
+)
+{
+	if (ReprotectContext->LockedVa)
+	{
+		MmUnmapLockedPages(
+			ReprotectContext->LockedVa,
+			ReprotectContext->Mdl
+		);
+		MmUnlockPages(
+			ReprotectContext->Mdl
+		);
+		IoFreeMdl(
+			ReprotectContext->Mdl
+		);
+
+		ReprotectContext->LockedVa = 0;
+		ReprotectContext->Mdl = 0;
+	}
+
+	return STATUS_SUCCESS;
+}
+
+
 NTSTATUS ReadVirtualMemory(
 	PREAD_VIRTUAL_MEMORY_STRUCT rvms
 )
@@ -26,7 +156,31 @@ NTSTATUS WriteVirtualMemory(
 	Status = PsLookupProcessByProcessId(TargetProcessId, &TargetProcess);
 	if (NT_SUCCESS(Status))
 	{
-		Status = MmCopyVirtualMemory(PsGetCurrentProcess(), wvms->Value, TargetProcess, (PVOID)wvms->Address, wvms->Size, KernelMode, &Bytes);
+		/*PMDL pMdl = NULL;
+		PVOID pSafeAddress = NULL;
+		if (!MmIsAddressValid((PVOID)wvms->Address) || !MmIsAddressValid((PVOID)wvms->Address))
+			return Status;
+		pMdl = IoAllocateMdl((PVOID)wvms->Address, (ULONG)wvms->Size, FALSE, FALSE, NULL);
+		if (!pMdl)
+			return Status;
+		__try
+		{
+			MmProbeAndLockPages(pMdl, KernelMode, IoReadAccess);
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER)
+		{
+			IoFreeMdl(pMdl);
+			return Status;
+		}
+		pSafeAddress = MmGetSystemAddressForMdlSafe(pMdl, NormalPagePriority);
+		if (!pSafeAddress)
+			return Status;*/
+		REPROTECT_CONTEXT ReprotectContext;
+		MmLockVaForWrite((PVOID)wvms->Address, (ULONG)wvms->Size,&ReprotectContext);
+		Status = MmCopyVirtualMemory(PsGetCurrentProcess(), wvms->Value, TargetProcess, (PVOID)ReprotectContext.LockedVa, wvms->Size, KernelMode, &Bytes);
+		/*MmUnlockPages(pMdl);
+		IoFreeMdl(pMdl);*/
+		MmUnlockVaForWrite(&ReprotectContext);
 		ObDereferenceObject(TargetProcess);
 	}
 	return Status;

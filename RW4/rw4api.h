@@ -1,7 +1,7 @@
 #ifndef __RW4API_H__
 #define __RW4API_H__
-#define TARGET_PROCESS_NAME L"DNF.exe"
-//#define TARGET_PROCESS_NAME L"YoudaoDict.exe"
+//#define TARGET_PROCESS_NAME L"DNF.exe"
+#define TARGET_PROCESS_NAME L"YoudaoDict.exe"
 #define DEVICE_SHOST_NAME L"RW4"
 #define DEVICE_NAME (L"\\Device\\" DEVICE_SHOST_NAME)
 #define SYMBOLIC_LINK_SHORT_NAME L"RW4"
